@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClickMe — Book 30 minutes with an expert</title>
+<meta name="description" content="Search experts by topic, pick an open slot on their calendar, and talk in the app. Your card isn't charged until the session is over.">
+<meta property="og:title" content="ClickMe — Book 30 minutes with an expert">
+<meta property="og:description" content="Search experts by topic, pick an open slot, and talk in the app. Charged after the call, not before.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://uptrendinvestments.net/clickme/">
+<meta property="og:site_name" content="ClickMe">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://uptrendinvestments.net/clickme/">
+<style>
+:root{
+  --ground:#E6EBE7; --paper:#F4F7F4; --ink:#0D211E; --petrol:#2A5D57;
+  --live:#FF3B1F; --live-text:#B72E14; --on-live:#2A0A03;
+  --dim:#9FB0A9; --line:#CBD6D0;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,sans-serif;
+  --wrap:1080px;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ground:#0B1917;--paper:#122421;--ink:#E8EFEB;--petrol:#8FB5AE;
+        --live:#FF4A2E;--live-text:#FF8A73;--on-live:#1A0500;
+        --dim:#4A625C;--line:#253A36;}
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
+  font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{width:100%;max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--petrol);margin:0 0 18px}
+
+/* ── header ── */
+.site-head{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.site-head__in{display:flex;align-items:center;justify-content:space-between;
+  gap:16px;height:62px}
+.mark{font-family:var(--mono);font-weight:700;font-size:16px;letter-spacing:-.02em;
+  text-decoration:none;display:flex;align-items:center;gap:8px}
+.mark__dot{width:8px;height:8px;border-radius:50%;background:var(--live)}
+.site-nav{display:flex;gap:26px;font-size:14px}
+.site-nav a{text-decoration:none;color:var(--petrol)}
+.site-nav a:hover{color:var(--ink)}
+@media (max-width:720px){.site-nav{display:none}}
+
+/* ── hero ── */
+.hero{padding:88px 0 72px}
+.hero__title{font-size:clamp(34px,6.2vw,62px);line-height:1.03;letter-spacing:-.035em;
+  font-weight:800;margin:0 0 22px;max-width:15ch;text-wrap:balance}
+.hero__sub{font-size:clamp(17px,2.1vw,20px);color:var(--petrol);max-width:52ch;margin:0 0 36px}
+
+/* ── signature: the schedule strip ── */
+.strip{background:var(--paper);border:1px solid var(--line);border-radius:14px;
+  padding:20px;margin:0 0 38px}
+.strip__head{display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--petrol);margin-bottom:16px}
+.slots{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+@media (max-width:640px){.slots{grid-template-columns:repeat(4,1fr)}
+  .slots > :nth-child(n+5){display:none}}
+.slot{font-family:var(--mono);font-size:13px;text-align:center;padding:16px 4px;font-variant-numeric:tabular-nums;
+  border-radius:9px;border:1px solid var(--line);color:var(--dim);
+  background:transparent;text-decoration:line-through;text-decoration-thickness:1px}
+.slot--open{color:var(--on-live);background:var(--live);border-color:var(--live);
+  text-decoration:none;font-weight:700;position:relative;box-shadow:0 6px 20px -6px var(--live)}
+.slot--open small{display:block;font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.85;margin-top:3px}
+.pulse{position:absolute;top:7px;right:7px;width:6px;height:6px;border-radius:50%;
+  background:var(--on-live);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+
+/* ── buttons ── */
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;text-decoration:none;
+  font-weight:600;font-size:15px;padding:14px 22px;border-radius:11px;
+  border:1px solid transparent;transition:transform .15s ease,opacity .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn--store{background:var(--ink);color:var(--ground)}
+.btn--ghost{border-color:var(--line);color:var(--petrol)}
+.btn__sub{font-family:var(--sans);line-height:1.1;text-align:left}
+.btn__sub b{display:block;font-size:15px;font-weight:600}
+.btn__sub span{display:block;font-size:10px;opacity:.72;letter-spacing:.02em}
+
+/* ── sequence (genuinely ordered) ── */
+.seq{border-top:1px solid var(--line);padding:64px 0}
+.seq__list{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.seq__item{display:grid;grid-template-columns:110px 1fr;gap:24px;
+  padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
+@media (max-width:640px){.seq__item{grid-template-columns:1fr;gap:6px}}
+.seq__t{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--live-text)}
+.seq__h{font-weight:700;font-size:19px;margin:0 0 4px;letter-spacing:-.01em}
+.seq__p{margin:0;color:var(--petrol);max-width:56ch}
+
+/* ── features ── */
+.feat{border-top:1px solid var(--line);padding:64px 0}
+.feat__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.feat__card{background:var(--ground);padding:26px 24px}
+.feat__h{font-weight:700;font-size:16px;margin:0 0 7px;letter-spacing:-.01em}
+.feat__p{margin:0;font-size:15px;color:var(--petrol)}
+
+/* ── experts ── */
+.pros{border-top:1px solid var(--line);padding:64px 0}
+.pros__in{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:38px 32px}
+.pros__title{font-size:clamp(24px,3.6vw,34px);letter-spacing:-.028em;font-weight:800;
+  margin:0 0 14px;max-width:20ch}
+.pros__p{color:var(--petrol);max-width:56ch;margin:0 0 26px}
+.pros__list{list-style:none;margin:0 0 28px;padding:0;display:grid;gap:10px}
+.pros__list li{padding-left:22px;position:relative;color:var(--petrol);font-size:15px}
+.pros__list li::before{content:"";position:absolute;left:0;top:9px;width:9px;height:2px;background:var(--live)}
+
+/* ── close ── */
+.close{border-top:1px solid var(--line);padding:76px 0 84px;text-align:center}
+.close__title{font-size:clamp(28px,4.6vw,44px);letter-spacing:-.03em;font-weight:800;
+  margin:0 0 14px}
+.close__p{color:var(--petrol);margin:0 auto 30px;max-width:44ch}
+.close .cta-row{justify-content:center}
+
+/* ── footer ── */
+.site-foot{border-top:1px solid var(--line);padding:34px 0;font-size:14px;color:var(--petrol)}
+.site-foot__in{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.site-foot a{color:var(--petrol);text-decoration:none;margin-right:20px}
+.site-foot a:hover{color:var(--ink);text-decoration:underline}
+
+:focus-visible{outline:2px solid var(--live);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap site-head__in">
+    <a class="mark" href="index.html"><span class="mark__dot" aria-hidden="true"></span>ClickMe</a>
+    <nav class="site-nav">
+      <a href="#how">How it works</a>
+      <a href="#experts">For experts</a>
+      <a href="support.html">Support</a>
+    </nav>
+    <a class="btn btn--store" href="APP_STORE_URL">
+      <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
+      <span class="btn__sub"><span>Download on the</span><b>App Store</b></span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <p class="eyebrow">Expert consultations · by voice</p>
+    <h1 class="hero__title">Someone already knows the answer. Book half an hour with them.</h1>
+    <p class="hero__sub">Search experts by topic, pick an open slot on their calendar, and talk in the app. Your card isn't charged until the session is over.</p>
+
+    <div class="strip">
+      <div class="strip__head">
+        <span>Priya N. · Tax &amp; incorporation</span>
+        <span>Today</span>
+      </div>
+      <div class="slots" role="img" aria-label="A schedule for today. Slots at 9:00, 9:30, 10:00, 11:00, 11:30 and 1:00 are booked. 10:30 is open.">
+        <div class="slot">9:00</div>
+        <div class="slot">9:30</div>
+        <div class="slot">10:00</div>
+        <div class="slot slot--open"><span class="pulse" aria-hidden="true"></span>10:30<small>Open</small></div>
+        <div class="slot">11:00</div>
+        <div class="slot">11:30</div>
+        <div class="slot">1:00</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn--store" href="APP_STORE_URL">
+        <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
+        <span class="btn__sub"><span>Download on the</span><b>App Store</b></span>
+      </a>
+      <a class="btn btn--ghost" href="#how">See how it works</a>
+    </div>
+  </section>
+
+  <section class="seq wrap" id="how">
+    <p class="eyebrow">How a session works</p>
+    <ol class="seq__list">
+      <li class="seq__item">
+        <span class="seq__t">FIND</span>
+        <div>
+          <h3 class="seq__h">Search by what you actually need</h3>
+          <p class="seq__p">Browse by topic and expertise tag, read reviews left after real sessions, and save the people you want to come back to.</p>
+        </div>
+      </li>
+      <li class="seq__item">
+        <span class="seq__t">BOOK</span>
+        <div>
+          <h3 class="seq__h">Take an open slot on their calendar</h3>
+          <p class="seq__p">Sessions run in 30-minute blocks against the expert's real availability. Your card is authorized when you book, not charged.</p>
+        </div>
+      </li>
+      <li class="seq__item">
+        <span class="seq__t">TALK</span>
+        <div>
+          <h3 class="seq__h">Call inside the app</h3>
+          <p class="seq__p">Voice calls happen in ClickMe. Neither of you hands over a phone number, and you can message in the same thread before and after.</p>
+        </div>
+      </li>
+      <li class="seq__item">
+        <span class="seq__t">AFTER</span>
+        <div>
+          <h3 class="seq__h">Pay for the time you used</h3>
+          <p class="seq__p">The charge goes through once the session ends. If it doesn't happen, you aren't charged for it.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="feat wrap">
+    <p class="eyebrow">What's in the app</p>
+    <div class="feat__grid">
+      <div class="feat__card">
+        <h3 class="feat__h">Real availability</h3>
+        <p class="feat__p">You see the slots an expert actually keeps open, with breathing room between sessions.</p>
+      </div>
+      <div class="feat__card">
+        <h3 class="feat__h">Private voice calls</h3>
+        <p class="feat__p">Calls run through the app. No numbers change hands.</p>
+      </div>
+      <div class="feat__card">
+        <h3 class="feat__h">Messages that stay put</h3>
+        <p class="feat__p">One thread per expert, so context from your last session is still there.</p>
+      </div>
+      <div class="feat__card">
+        <h3 class="feat__h">Reviews from real sessions</h3>
+        <p class="feat__p">Only people who booked and talked can leave one.</p>
+      </div>
+      <div class="feat__card">
+        <h3 class="feat__h">Saved cards</h3>
+        <p class="feat__p">Pay with a saved card next time. Card details are handled by Stripe.</p>
+      </div>
+      <div class="feat__card">
+        <h3 class="feat__h">Reschedule when plans move</h3>
+        <p class="feat__p">Propose a new time and the other person accepts or declines it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pros wrap" id="experts">
+    <div class="pros__in">
+      <p class="eyebrow">For experts</p>
+      <h2 class="pros__title">Set your hours. Get paid to your bank.</h2>
+      <p class="pros__p">Publish the topics you take questions on, set a rate, and open the hours you want. ClickMe handles the booking, the call, and the money.</p>
+      <ul class="pros__list">
+        <li>Choose your own rate and the hours you're available</li>
+        <li>Earnings land in your bank account through Stripe</li>
+        <li>Track sessions and payouts in the app</li>
+        <li>Decline or reschedule a request without a phone call</li>
+      </ul>
+      <a class="btn btn--store" href="APP_STORE_URL">
+        <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
+        <span class="btn__sub"><span>Start on the</span><b>App Store</b></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="close wrap">
+    <h2 class="close__title">Book the half hour.</h2>
+    <p class="close__p">ClickMe is free to download. You only pay for sessions you book.</p>
+    <div class="cta-row">
+      <a class="btn btn--store" href="APP_STORE_URL">
+        <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
+        <span class="btn__sub"><span>Download on the</span><b>App Store</b></span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap site-foot__in">
+    <div>
+      <a href="privacy.html">Privacy</a>
+      <a href="support.html">Support</a>
+      <a href="mailto:SUPPORT_EMAIL">Contact</a>
+    </div>
+    <div>© 2026 COMPANY_LEGAL_NAME</div>
+  </div>
+</footer>
+
+</body>
+</html>
