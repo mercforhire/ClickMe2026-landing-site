@@ -6,42 +6,48 @@
 <title>Privacy Policy — ClickMe</title>
 <meta name="description" content="What ClickMe collects, why, and who it is shared with.">
 <link rel="canonical" href="https://uptrendinvestments.net/clickme/privacy.html">
+<meta name="color-scheme" content="dark">
 <style>
 :root{
-  --ground:#E6EBE7;--paper:#F4F7F4;--ink:#0D211E;--petrol:#2A5D57;
-  --live:#FF3B1F;--live-text:#B72E14;--line:#CBD6D0;
-  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
-  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,sans-serif;
-}
-@media (prefers-color-scheme:dark){
-  :root{--ground:#0B1917;--paper:#122421;--ink:#E8EFEB;--petrol:#8FB5AE;--live:#FF4A2E;--live-text:#FF8A73;--line:#253A36;}
+  --ground:#0A0C0B; --surface:#171B18; --surface-2:#101413;
+  --line:#242926; --line-soft:#1C211E;
+  --mint:#4FE88C; --mint-dim:#2E8F58; --on-mint:#06120B;
+  --text:#F2F4F2; --text-2:#9AA39E; --text-3:#5F6B65;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,Roboto,sans-serif;
+  --glow-sm:0 0 22px rgba(79,232,140,.26);
+  --r-card:22px; --r-pill:999px;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
-  font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
 .wrap{max-width:720px;margin:0 auto;padding:0 24px}
-.head{border-bottom:1px solid var(--line)}
-.head__in{display:flex;align-items:center;height:62px}
-.mark{font-family:var(--mono);font-weight:700;font-size:16px;text-decoration:none;
-  display:flex;align-items:center;gap:8px}
-.mark__dot{width:8px;height:8px;border-radius:50%;background:var(--live)}
-h1{font-size:clamp(30px,5vw,42px);letter-spacing:-.03em;line-height:1.08;margin:56px 0 10px}
-.stamp{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--petrol);margin:0 0 8px}
-h2{font-size:20px;letter-spacing:-.015em;margin:44px 0 10px}
-h3{font-size:16px;margin:26px 0 6px}
-p,li{color:var(--petrol)}
+.head{border-bottom:1px solid var(--line-soft)}
+.head__in{display:flex;align-items:center;height:66px}
+.mark{font-weight:800;font-size:17px;letter-spacing:-.02em;text-decoration:none;
+  display:flex;align-items:center;gap:9px;color:var(--text)}
+.mark__dot{width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:var(--glow-sm)}
+h1{font-size:clamp(31px,5.1vw,44px);letter-spacing:-.033em;line-height:1.06;
+  margin:60px 0 12px;font-weight:800;text-wrap:balance}
+.stamp{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mint-dim);margin:0 0 10px}
+h2{font-size:21px;letter-spacing:-.02em;margin:46px 0 10px;font-weight:700}
+h3{font-size:16px;margin:28px 0 6px;font-weight:700}
+p,li{color:var(--text-2)}
 p{margin:0 0 14px}
-ul{margin:0 0 16px;padding-left:20px}
-li{margin-bottom:7px}
-strong{color:var(--ink)}
-a{color:var(--ink)}
-.note{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--live);
-  border-radius:10px;padding:18px 20px;margin:26px 0}
+ul{margin:0 0 16px;padding-left:0;list-style:none}
+li{margin-bottom:9px;padding-left:22px;position:relative}
+li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;
+  border-radius:50%;background:var(--mint-dim)}
+strong{color:var(--text)}
+a{color:var(--mint)}
+.note{background:var(--surface);border:1px solid var(--line);
+  border-left:3px solid var(--mint);border-radius:14px;padding:18px 20px;margin:28px 0}
 .note p{margin:0;font-size:15px}
-.foot{border-top:1px solid var(--line);margin-top:64px;padding:30px 0;font-size:14px;color:var(--petrol)}
-.foot a{color:var(--petrol);margin-right:20px}
-:focus-visible{outline:2px solid var(--live);outline-offset:3px}
+.foot{border-top:1px solid var(--line-soft);margin-top:68px;padding:32px 0;
+  font-size:14px;color:var(--text-3)}
+.foot a{color:var(--text-2);margin-right:22px;text-decoration:none}
+.foot a:hover{color:var(--mint)}
+a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6px}
 </style>
 </head>
 <body>
