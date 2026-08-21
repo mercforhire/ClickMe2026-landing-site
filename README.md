@@ -20,13 +20,13 @@ the payments API.
 Every placeholder is an UPPERCASE token. Find them all with:
 
 ```sh
-grep -rn "APP_STORE_URL\|SUPPORT_EMAIL\|COMPANY_LEGAL_NAME\|COMPANY_ADDRESS\|EFFECTIVE_DATE\|RESPONSE_TIME" .
+grep -rn "APP_STORE_URL\|COMPANY_LEGAL_NAME\|COMPANY_ADDRESS\|EFFECTIVE_DATE\|RESPONSE_TIME" .
 ```
 
 | Token | Where | What it needs |
 |---|---|---|
 | `APP_STORE_URL` | index.html ×4 | `https://apps.apple.com/app/id<your-app-id>` |
-| `SUPPORT_EMAIL` | all three | The address you'll actually monitor |
+| ~~`SUPPORT_EMAIL`~~ | all three | ✅ filled — `clickmeapp@uptrendinvestments.net` |
 | `COMPANY_LEGAL_NAME` | index, privacy | Registered entity name |
 | `COMPANY_ADDRESS` | privacy.html | Registered business address |
 | `EFFECTIVE_DATE` | privacy.html | Date the policy takes effect |
