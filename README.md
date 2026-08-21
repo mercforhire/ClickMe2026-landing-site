@@ -51,24 +51,68 @@ sed -i '' 's|APP_STORE_URL|https://apps.apple.com/app/id0000000000|g' *.html
    require the official badge artwork with correct clear space and minimum size.
    Download the real badge and swap it in before you launch.
 
-## Deploying
+## Deploying (Vercel, as a subdirectory of uptrendinvestments.net)
 
-Any static host. No build command, no output directory.
+Target URLs:
 
-- **Cloudflare Pages / Netlify / Vercel** — connect the repo, leave build settings
-  empty, deploy the root.
-- **GitHub Pages** — push and enable Pages on the branch root.
+```
+https://uptrendinvestments.net/clickme/
+https://uptrendinvestments.net/clickme/privacy.html
+https://uptrendinvestments.net/clickme/support.html
+```
 
-Point your domain at it. Do **not** serve this from the Railway backend — that
-host runs a single replica tuned for API traffic, and coupling the two means a
-copy fix restarts payment processing.
+This folder deploys as its **own Vercel project**, and the parent site proxies to it.
+That keeps the two independent: a copy fix here never redeploys the investments site,
+and either can roll back on its own.
 
-### If you put the site on the same domain as the app's Universal Links
+### 1. Deploy this folder
 
-The backend serves `/.well-known/apple-app-site-association` at its domain root.
-If the marketing domain is ever the same domain, that path must keep returning the
-backend's AASA file with `Content-Type: application/json` and no redirect — route
-it at the CDN before adding any catch-all.
+Push it to its own repo and import it in Vercel, or run `vercel` from this directory.
+No build command, no output directory — it is static files. `vercel.json` sets the
+security headers (including a CSP that blocks scripts outright, since these pages
+have none).
+
+Note the production URL Vercel gives you, e.g. `clickme-landing.vercel.app`.
+
+### 2. Add the rewrite to the PARENT project
+
+In the `uptrendinvestments.net` project's `vercel.json`:
+
+```json
+{
+  "rewrites": [
+    { "source": "/clickme", "destination": "https://clickme-landing.vercel.app/" },
+    { "source": "/clickme/:path*", "destination": "https://clickme-landing.vercel.app/:path*" }
+  ]
+}
+```
+
+Both lines matter — the first handles `/clickme` with no trailing path, the second
+handles everything under it. Redeploy the parent.
+
+### 3. Add the sitemap to the PARENT robots.txt
+
+`robots.txt` is only honored at the domain root, so `sitemap.xml` here cannot
+advertise itself. Add this line to the root `robots.txt` of uptrendinvestments.net:
+
+```
+Sitemap: https://uptrendinvestments.net/clickme/sitemap.xml
+```
+
+### Optional: drop the .html extensions
+
+Add `"cleanUrls": true` to this project's `vercel.json` to serve `/clickme/privacy`
+instead of `/clickme/privacy.html`. Left off by default because the `.html` links
+work identically when you open the files locally by double-clicking, and enabling it
+makes every in-page link take a 308 redirect unless you also rewrite the hrefs.
+
+## Universal Links (if you ever want them from this domain)
+
+Apple requires `/.well-known/apple-app-site-association` at the **domain root** — a
+subdirectory cannot serve it. Today the app's AASA is served by the backend on its
+own Railway domain, so nothing is needed here. If you later want
+`uptrendinvestments.net` links to open the app, that file must go at the parent
+root with `Content-Type: application/json` and no redirect.
 
 ## Design notes
 
