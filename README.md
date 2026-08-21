@@ -20,7 +20,7 @@ the payments API.
 Every placeholder is an UPPERCASE token. Find them all with:
 
 ```sh
-grep -rn "APP_STORE_URL\|COMPANY_ADDRESS" .
+grep -rn "APP_STORE_URL" .
 ```
 
 | Token | Where | What it needs |
@@ -28,7 +28,7 @@ grep -rn "APP_STORE_URL\|COMPANY_ADDRESS" .
 | `APP_STORE_URL` | index.html ×4 | `https://apps.apple.com/app/id<your-app-id>` |
 | ~~`SUPPORT_EMAIL`~~ | all three | ✅ filled — `clickmeapp@uptrendinvestments.net` |
 | ~~`COMPANY_LEGAL_NAME`~~ | index, privacy | ✅ filled — Uptrend Investments Inc. |
-| `COMPANY_ADDRESS` | privacy.html | Registered business address |
+| ~~`COMPANY_ADDRESS`~~ | privacy.html | ✅ filled |
 | ~~`EFFECTIVE_DATE`~~ | privacy.html | ✅ filled — 21 August 2026 |
 | ~~`RESPONSE_TIME`~~ | support.html | ✅ filled — two business days |
 
