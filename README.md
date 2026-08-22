@@ -168,9 +168,14 @@ once one arrives at the existing support inbox.
   neither action is reachable through the site, by anyone, including us.
   That is a deliberate property of the store, not a gap to close by widening
   the grant.
-- **Which project** — this table lives in its own Supabase project, separate
-  from the one the app and backend use for accounts (see "What needs a human
-  before launch" above); the two must never be confused.
+- **Which project** — this table must never live in the Supabase project the
+  app and backend use for accounts and payment identity; keeping a marketing
+  waitlist out of that project is the point. It does share a project with
+  another, non-sensitive site, because Supabase's free plan allows two active
+  projects per account and that limit is counted across every organization
+  you own — so a second organization does not buy a third project. The
+  consequence to remember: the publishable key is project-wide, so it reaches
+  that other site's tables too, bounded by whatever those tables grant.
 - **The schema** — defined in `sql/waitlist.sql`, committed alongside this
   file so the procedure and the table it operates on stay in one place.
 
