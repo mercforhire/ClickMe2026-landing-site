@@ -118,17 +118,24 @@ root with `Content-Type: application/json` and no redirect.
 
 Kept here so future edits stay coherent rather than drifting.
 
-- **Palette** — cool pale sage ground (`#E6EBE7`), deep petrol ink (`#0D211E`),
-  cadmium red-orange (`#FF3B1F`) reserved *only* for the live slot, the sequence
-  markers, and focus rings. If the accent starts appearing everywhere, it stops
-  reading as a signal.
-- **Type** — monospace carries the structural role (wordmark, slot times,
-  eyebrows) because the product is a timetable; system sans for body. No web
-  fonts, which keeps every page self-contained and fast.
+- **Palette** — near-black ground (`#0A0C0B`) behind every page, raised
+  surfaces (`#171B18`) that lift cards and panels off it, and a single mint
+  accent (`#4FE88C`) that carries every interactive and live-state cue.
+- **Glow** — `--glow-sm` and `--glow-lg`, both mint-derived shadows, land on
+  the wordmark dot, the primary CTA, and the pulsing live-slot dot — the same
+  handful of places the accent itself appears.
+- **Geometry** — pill geometry: slots and buttons are fully rounded pills;
+  cards and panels use a large, soft corner radius instead.
+- **Accent rule** — mint marks what is live or what you can act on, nothing
+  decorative. Before giving something the accent, ask whether it is live or
+  actionable; if it isn't, it doesn't get mint.
+- **Type** — the system sans stack (`--sans`) throughout, for every page. No
+  web fonts, which keeps every page self-contained and fast.
+- **Dark-only** — the site is dark-only, deliberately: the iOS app it markets
+  has no light mode, so there is no light theme for this site to match.
 - **Signature** — the hero schedule strip: booked slots struck through and dimmed,
   one slot lit with a pulsing dot. It is the product's core object, not decoration.
 - **No numbered steps** in the features grid — those aren't a sequence. The
   "how a session works" list *is* ordered, so it uses FIND / BOOK / TALK / AFTER
   markers that name the stage instead of counting it.
-- Dark mode via `prefers-color-scheme`, reduced motion respected, keyboard focus
-  visible.
+- Reduced motion respected, keyboard focus visible.
