@@ -84,8 +84,7 @@ and either can roll back on its own.
 
 Push it to its own repo and import it in Vercel, or run `vercel` from this directory.
 No build command, no output directory — it is static files. `vercel.json` sets the
-security headers (including a CSP that blocks scripts outright, since these pages
-have none).
+security headers, including a CSP — see "Content Security Policy" below.
 
 Note the production URL Vercel gives you, e.g. `clickme-landing.vercel.app`.
 
@@ -128,6 +127,22 @@ subdirectory cannot serve it. Today the app's AASA is served by the backend on i
 own Railway domain, so nothing is needed here. If you later want
 `uptrendinvestments.net` links to open the app, that file must go at the parent
 root with `Content-Type: application/json` and no redirect.
+
+## Content Security Policy
+
+`vercel.json` declares the CSP once; this section is the only place its
+directives are quoted in prose, so an edit to one updates the other in the
+same commit (see "Doc-with-code convention" below).
+
+- **Form submissions** — `form-action 'self'` restricts where a `<form>` on
+  this site may submit, to this origin and nowhere else. It has to be stated
+  explicitly: `form-action` does not fall back to `default-src`, so
+  `default-src 'self'` does not already cover it, and leaving the directive
+  unset would permit submission to any origin — worse than restricting it.
+- **No scripts** — `script-src 'none'` is load-bearing, not incidental: every
+  page here ships zero JavaScript, and this directive is what keeps that
+  true. Before adding a script, justify why it's worth weakening the CSP
+  against the alternative of not using JavaScript at all.
 
 ## Design notes
 
