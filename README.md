@@ -144,6 +144,36 @@ same commit (see "Doc-with-code convention" below).
   true. Before adding a script, justify why it's worth weakening the CSP
   against the alternative of not using JavaScript at all.
 
+## Waitlist unsubscribe and deletion requests
+
+Phase 4 wires up the form that adds an address to the waitlist; this section
+documents how an operator handles a request about an address already on it,
+once one arrives at the existing support inbox.
+
+- **Where requests arrive** — the existing support address,
+  `clickmeapp@uptrendinvestments.net`. No new address, no form, no endpoint:
+  the manual path exists so a subscriber's request never needs a second
+  credential or a change to the CSP.
+- **Two request types, handled differently** — "stop emailing me" sets
+  `unsubscribed_at` on that row and keeps it, so a later send can exclude the
+  address and there is a record consent was withdrawn; "delete my data"
+  removes the row outright. A withdrawal is not the same request as an
+  erasure, and treating the second as a mere flag would be the wrong answer
+  to it.
+- **The steps** — Supabase dashboard → Table Editor → the `waitlist` table →
+  find the row by `email` → either set `unsubscribed_at` to the current
+  timestamp, or delete the row.
+- **Why this is dashboard-only** — the key the site itself uses can only
+  insert a row; it holds no privilege to select, update or delete one, so
+  neither action is reachable through the site, by anyone, including us.
+  That is a deliberate property of the store, not a gap to close by widening
+  the grant.
+- **Which project** — this table lives in its own Supabase project, separate
+  from the one the app and backend use for accounts (see "What needs a human
+  before launch" above); the two must never be confused.
+- **The schema** — defined in `sql/waitlist.sql`, committed alongside this
+  file so the procedure and the table it operates on stay in one place.
+
 ## Design notes
 
 Kept here so future edits stay coherent rather than drifting.
@@ -177,9 +207,10 @@ This file restates values that live in the code — `:root` custom-property
 values, CSP directives, deployment steps — rather than pointing at the code,
 because that reads better on its own. The tradeoff is that the prose only
 stays true if it moves with the code. So: changing the value of a `:root`
-custom property, changing a CSP directive, or changing a documented
-deployment step updates the paragraph describing it, in the same commit —
-not a follow-up one.
+custom property, changing a CSP directive, changing a documented
+deployment step, or changing the waitlist schema in `sql/waitlist.sql`
+updates the paragraph describing it, in the same commit — not a follow-up
+one.
 
 The Design notes and Deploying sections describe current state, not the
 history of how it got that way. When something changes, edit the
