@@ -17,39 +17,54 @@ the payments API.
 
 ## Fill these in before publishing
 
-Every placeholder is an UPPERCASE token. Find them all with:
+Every token in the table below has been filled.
 
-```sh
-grep -rn "APP_STORE_URL" .
-```
-
-| Token | Where | What it needs |
+| Token | Where | What it needed |
 |---|---|---|
-| `APP_STORE_URL` | index.html ×4 | `https://apps.apple.com/app/id<your-app-id>` |
 | ~~`SUPPORT_EMAIL`~~ | all three | ✅ filled — `clickmeapp@uptrendinvestments.net` |
 | ~~`COMPANY_LEGAL_NAME`~~ | index, privacy | ✅ filled — Uptrend Investments Inc. |
 | ~~`COMPANY_ADDRESS`~~ | privacy.html | ✅ filled |
 | ~~`EFFECTIVE_DATE`~~ | privacy.html | ✅ filled — 21 August 2026 |
 | ~~`RESPONSE_TIME`~~ | support.html | ✅ filled — two business days |
 
-Replace them in one pass:
+One placeholder is deliberately not in this table: it can't be filled until
+Apple approves the app, so it lives in "Deferred until App Store approval"
+below instead of here.
 
-```sh
-sed -i '' 's|APP_STORE_URL|https://apps.apple.com/app/id0000000000|g' *.html
-```
+## What needs a human before launch
 
-## Two things that need a human before launch
+The privacy policy has not been reviewed by a lawyer. It describes how the
+app and backend genuinely handle data — Stripe for cards and payout identity,
+Agora for voice, Supabase for accounts, APNs for notifications, calls not
+recorded — so it is an accurate starting point rather than boilerplate. It is
+still not legal advice. Have counsel review it before launch.
 
-1. **The privacy policy has not been reviewed by a lawyer.** It describes how the
-   app and backend genuinely handle data — Stripe for cards and payout identity,
-   Agora for voice, Supabase for accounts, APNs for notifications, calls not
-   recorded — so it is an accurate starting point rather than boilerplate. It is
-   still not legal advice. Have counsel review it.
+## Deferred until App Store approval
 
-2. **The App Store badge is an approximation.** The button uses an inline SVG
-   Apple mark so the page stays self-contained. Apple's Identity Guidelines
-   require the official badge artwork with correct clear space and minimum size.
-   Download the real badge and swap it in before you launch.
+These three things only happen once Apple approves the app — none of them
+block launch:
+
+- **The real App Store URL.** `APP_STORE_URL` is a placeholder in four spots
+  in `index.html`. Find them with:
+
+  ```sh
+  grep -rn "APP_STORE_URL" .
+  ```
+
+  Replace them in one pass once you have the real URL:
+
+  ```sh
+  sed -i '' 's|APP_STORE_URL|https://apps.apple.com/app/id0000000000|g' *.html
+  ```
+
+- **Apple's official badge artwork.** The button uses an inline SVG Apple mark
+  so the page stays self-contained today. Apple's Identity Guidelines require
+  the official badge artwork with correct clear space and minimum size — swap
+  it in once Apple approves the app.
+
+- **The CTA swap.** Once Apple approves the app, the hero and closing CTAs
+  should send visitors to an App Store install; whatever they point at in the
+  meantime, that is the end state.
 
 ## Deploying (Vercel, as a subdirectory of uptrendinvestments.net)
 
@@ -139,3 +154,17 @@ Kept here so future edits stay coherent rather than drifting.
   "how a session works" list *is* ordered, so it uses FIND / BOOK / TALK / AFTER
   markers that name the stage instead of counting it.
 - Reduced motion respected, keyboard focus visible.
+
+## Doc-with-code convention
+
+This file restates values that live in the code — `:root` custom-property
+values, CSP directives, deployment steps — rather than pointing at the code,
+because that reads better on its own. The tradeoff is that the prose only
+stays true if it moves with the code. So: changing the value of a `:root`
+custom property, changing a CSP directive, or changing a documented
+deployment step updates the paragraph describing it, in the same commit —
+not a follow-up one.
+
+The Design notes and Deploying sections describe current state, not the
+history of how it got that way. When something changes, edit the
+description in place rather than appending a note about the change.
