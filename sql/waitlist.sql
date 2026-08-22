@@ -23,15 +23,33 @@
 -- Do not drop it. It belongs to the other site, and this table should be
 -- renamed to avoid the collision instead.
 --
--- Phase 4 forward requirement A: the function that inserts into this
--- table must send the header "Prefer: resolution=ignore-duplicates"
--- together with the query parameter "?on_conflict=email". This table's
--- primary key is a surrogate identity column that is always fresh on
--- every insert, so ignore-duplicates alone (which matches conflicts
--- against the primary key by default) never finds a conflict there;
--- without on_conflict=email a duplicate address instead raises an
--- ordinary unique violation (HTTP 409) rather than being silently
--- ignored.
+-- Phase 4 forward requirement A: the function must POST plainly and map
+-- the duplicate case from the error code. It must NOT send
+-- "Prefer: resolution=ignore-duplicates", and it does not need the
+-- "?on_conflict=email" query parameter.
+--
+-- This was established by live probe on 2026-08-22, and it overturns what
+-- planning assumed. PostgREST's upsert path -- which any
+-- "Prefer: resolution=..." value selects -- needs privileges that the
+-- column-level "grant insert (email, source)" below does not confer. Sent
+-- against this table, resolution=ignore-duplicates is rejected outright
+-- with 42501 "permission denied for table waitlist", exactly as
+-- resolution=merge-duplicates would be. Widening the grant to make the
+-- upsert path work would hand the caller back control of created_at and
+-- unsubscribed_at, which is the whole point of the column-level grant.
+--
+-- So the function should send only "Prefer: return=minimal" (asking for
+-- the row back would require select, which anon does not have), and read
+-- the outcome from the status:
+--
+--     201                    -> a new address was stored. Success.
+--     409 with code 23505    -> the address is already on the list, caught
+--                               by constraint waitlist_email_unique.
+--                               Present this as success too (FORM-08) --
+--                               it is not an error the visitor can act on.
+--     anything else          -> failure. Send the visitor to the failure
+--                               page; never report success for a write
+--                               that did not land (FORM-06).
 --
 -- Phase 4 forward requirement B: the function must lowercase the address
 -- before sending it. The policy below rejects a non-lowercase address
