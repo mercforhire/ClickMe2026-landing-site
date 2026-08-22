@@ -137,8 +137,9 @@ Kept here so future edits stay coherent rather than drifting.
   surfaces (`#171B18`) that lift cards and panels off it, and a single mint
   accent (`#4FE88C`) that carries every interactive and live-state cue.
 - **Glow** — `--glow-sm` and `--glow-lg`, both mint-derived shadows, land on
-  the wordmark dot, the primary CTA, and the pulsing live-slot dot — the same
-  handful of places the accent itself appears.
+  the wordmark dot, the open slot pill, the primary CTA, and the "For experts"
+  bullet markers — the same handful of places the accent itself appears. The
+  small dot inside the open slot pulses on opacity alone and carries no glow.
 - **Geometry** — pill geometry: slots and buttons are fully rounded pills;
   cards and panels use a large, soft corner radius instead.
 - **Accent rule** — mint marks what is live or what you can act on, nothing
