@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>We couldn't add you — ClickMe</title>
+<meta name="description" content="Your waitlist signup didn't go through. Double-check your email and try again.">
+<link rel="canonical" href="https://uptrendinvestments.net/clickme/waitlist-error.html">
+<meta name="color-scheme" content="dark">
+<style>
+:root{
+  --ground:#0A0C0B; --surface:#171B18; --surface-2:#101413;
+  --line:#242926; --line-soft:#1C211E;
+  --mint:#4FE88C; --mint-dim:#2E8F58; --on-mint:#06120B;
+  --text:#F2F4F2; --text-2:#9AA39E; --text-3:#5F6B65;
+  --sans:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",system-ui,Roboto,sans-serif;
+  --glow-sm:0 0 22px rgba(79,232,140,.26);
+  --r-card:22px; --r-pill:999px;
+  --coral:#F5615C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--text);font-family:var(--sans);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:720px;margin:0 auto;padding:0 24px}
+.head{border-bottom:1px solid var(--line-soft)}
+.head__in{display:flex;align-items:center;height:66px}
+.mark{font-weight:800;font-size:17px;letter-spacing:-.02em;text-decoration:none;
+  display:flex;align-items:center;gap:9px;color:var(--text)}
+.mark__dot{width:9px;height:9px;border-radius:50%;background:var(--mint);box-shadow:var(--glow-sm)}
+h1{font-size:clamp(31px,5.1vw,44px);letter-spacing:-.033em;line-height:1.06;
+  margin:60px 0 12px;font-weight:800;text-wrap:balance}
+p,li{color:var(--text-2)}
+p{margin:0 0 14px}
+strong{color:var(--text)}
+a{color:var(--mint)}
+.note{background:var(--surface);border:1px solid var(--line);
+  border-left:3px solid var(--mint);border-radius:14px;padding:18px 20px;margin:28px 0}
+.note p{margin:0;font-size:15px}
+.foot{border-top:1px solid var(--line-soft);margin-top:68px;padding:32px 0;
+  font-size:14px;color:var(--text-3)}
+.foot a{color:var(--text-2);margin-right:22px;text-decoration:none}
+.foot a:hover{color:var(--mint)}
+a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6px}
+.status{width:40px;height:40px;margin-bottom:8px}
+.status svg{width:100%;height:100%}
+</style>
+</head>
+<body>
+<header class="head"><div class="wrap head__in">
+  <a class="mark" href="index.html"><span class="mark__dot" aria-hidden="true"></span>ClickMe</a>
+</div></header>
+
+<main class="wrap">
+  <div class="status status--error" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="var(--coral)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 7.5v6"></path>
+      <path d="M12 16.5h.01"></path>
+    </svg>
+  </div>
+  <h1>We couldn't add you</h1>
+  <p>Double-check the email address and try again — or if it looks right, email us at <a href="mailto:clickmeapp@uptrendinvestments.net">clickmeapp@uptrendinvestments.net</a> and we'll add you by hand.</p>
+
+  <p><a href="index.html#join">Try again</a></p>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <a href="index.html">Home</a><a href="support.html">Support</a>
+</div></footer>
+</body>
+</html>
