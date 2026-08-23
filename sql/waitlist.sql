@@ -65,6 +65,14 @@ create table public.waitlist (
   email           text not null,
   created_at      timestamptz not null default now(),
   source          text not null,
+  -- D-17/D-18: which side of the marketplace this signup is on -- 'client'
+  -- or 'expert'. Nullable here, with no default, because the concept did
+  -- not exist before Phase 4 and the rows Phase 3's probing left behind
+  -- have no honest answer to backfill. It is the policy below, not this
+  -- column definition, that actually makes an answer mandatory for every
+  -- NEW row -- a NULL fails the WITH CHECK's "in" test just like any other
+  -- disallowed value would.
+  audience        text,
   unsubscribed_at timestamptz,
 
   -- DATA-03: a plain UNIQUE constraint, not a functional index -- the
@@ -96,26 +104,87 @@ alter table public.waitlist enable row level security;
 -- delete or "for all" policy exists, and none is added for any role
 -- other than anon. source is restricted to the two real surfaces that
 -- exist today; a non-lowercase address is rejected outright rather than
--- silently rewritten.
+-- silently rewritten. D-17/D-18: audience is restricted to the same two
+-- values the form's radios offer -- and because a NULL fails an "in"
+-- test just like any disallowed value would, this clause is what makes
+-- audience de-facto mandatory for every new insert, even though the
+-- column itself stays nullable for the rows that predate it.
 create policy "waitlist_insert_public"
 on public.waitlist
 for insert
 to anon
 with check (
   source in ('hero', 'closing')
+  and audience in ('client', 'expert')
   and email = lower(email)
 );
 
 -- D-02/DATA-04: the actual "the caller cannot set created_at or
 -- unsubscribed_at" mechanism. A column-level grant means anon may name
--- only email and source in an insert's column list -- naming either
--- restricted column fails the whole statement outright, before the
--- policy above is even evaluated, whatever value was supplied. No
--- select, update, delete or blanket grant exists for anon or for
--- authenticated on this table at all -- that is what makes a denied read
--- or delete come back as an unambiguous error instead of a response that
--- only looks like a correct denial. service_role retains its usual
--- access and is expected to: it bypasses RLS by design, and it is what
--- the dashboard uses to honor the unsubscribe and deletion requests
--- described in README.md.
-grant insert (email, source) on public.waitlist to anon;
+-- only email, source and (as of D-17/D-20) audience in an insert's
+-- column list -- naming any other column fails the whole statement
+-- outright, before the policy above is even evaluated, whatever value
+-- was supplied. This grant stays column-scoped on purpose: widening it
+-- to a table-level "grant insert on public.waitlist" would hand the
+-- caller back control of created_at and unsubscribed_at, which is the
+-- entire point of writing it this way instead. No select, update,
+-- delete or blanket grant exists for anon or for authenticated on this
+-- table at all -- that is what makes a denied read or delete come back
+-- as an unambiguous error instead of a response that only looks like a
+-- correct denial. service_role retains its usual access and is expected
+-- to: it bypasses RLS by design, and it is what the dashboard uses to
+-- honor the unsubscribe and deletion requests described in README.md.
+grant insert (email, source, audience) on public.waitlist to anon;
+
+-- ============================================================================
+-- IF YOU ALREADY RAN THIS FILE
+-- ============================================================================
+-- Everything above is the complete, from-scratch definition of this table --
+-- what you'd run once, by hand, against a brand-new host project. But this
+-- table went live in Phase 3, before the audience column existed, so running
+-- the whole file again from the top against that live table fails on its
+-- very first line: "create table" errors against a table that's already
+-- there. If that's your situation, do not run the statements above -- run
+-- exactly the five statements below instead. They are the equivalent change
+-- for a table that already exists, and they must never diverge from the
+-- from-scratch definition above: if you ever edit one, edit the other in
+-- the same sitting.
+--
+-- The revoke comes before the grant even though the grant only widens (it
+-- doesn't strictly need to strip anything first): Postgres's
+-- "revoke insert on <table> from <role>" also revokes that role's
+-- corresponding column-level insert privileges, so doing the revoke first
+-- keeps this pair correct whether or not a previous run already narrowed
+-- the grant -- either the revoke clears something and the grant restores a
+-- superset, or there was nothing to clear and the grant is still a
+-- superset. Either way the end state is exactly
+-- "insert (email, source, audience)" and nothing more.
+--
+-- The drop/create pair below leaves a brief moment with no policy at all on
+-- this table. That is safe, not a gap: row level security is already
+-- enabled (see above), and a table with RLS on and zero policies denies
+-- every insert -- the window fails closed, never open.
+--
+-- These five statements are also safe to run on a project where the
+-- from-scratch statements above were just run for the first time: "add
+-- column if not exists" and "drop policy if exists" are both no-ops against
+-- a table that already has the column and the identical policy, so running
+-- this file start to finish never breaks a fresh install either.
+
+alter table public.waitlist add column if not exists audience text;
+
+revoke insert on public.waitlist from anon;
+
+grant insert (email, source, audience) on public.waitlist to anon;
+
+drop policy if exists "waitlist_insert_public" on public.waitlist;
+
+create policy "waitlist_insert_public"
+on public.waitlist
+for insert
+to anon
+with check (
+  source in ('hero', 'closing')
+  and audience in ('client', 'expert')
+  and email = lower(email)
+);

@@ -177,7 +177,10 @@ once one arrives at the existing support inbox.
   consequence to remember: the publishable key is project-wide, so it reaches
   that other site's tables too, bounded by whatever those tables grant.
 - **The schema** — defined in `sql/waitlist.sql`, committed alongside this
-  file so the procedure and the table it operates on stay in one place.
+  file so the procedure and the table it operates on stay in one place. A
+  row holds the address, where on the page it was submitted from, and
+  whether the person joined as a client or an expert (`audience`); an
+  erasure request removes all of that in one delete, not just the address.
 
 ## Design notes
 
