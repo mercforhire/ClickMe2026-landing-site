@@ -182,6 +182,59 @@ once one arrives at the existing support inbox.
   whether the person joined as a client or an expert (`audience`); an
   erasure request removes all of that in one delete, not just the address.
 
+## Post-approval swap-back checklist
+
+`index.html` carries `SWAP-ON-APPROVAL` HTML comment markers at each site that
+changes when Apple approves the app — `grep -n "SWAP-ON-APPROVAL" index.html`
+returns the full inventory, six sites. Those markers answer *where* in the
+markup; this checklist answers *what else, and in what order*, for the files
+markup cannot annotate. The swap is **replaced, not supplemented**: App Store
+buttons take the hero and closing slots back, and the waitlist forms, their
+consent notices, their audience radios, and both outcome pages retire
+together, not alongside a second CTA.
+
+- **`index.html` markup** — the six marker sites: the header status marker
+  becomes an App Store badge link again; the hero eyebrow and H1 lose the
+  pre-launch token and regain the booking imperative; the hero sub loses its
+  waitlist hand-off sentence; the hero waitlist form (consent notice and
+  audience radios included) is replaced by an App Store button; the
+  For-experts CTA becomes an App Store button; the closing title and its
+  waitlist form block are replaced by booking copy and an App Store button.
+- **`index.html` copy** — what comes back at each marked site, spelled out
+  because the markers point at it but don't quote it. The hero H1 regains its
+  booking imperative (pre-`05-01` it read "Book half an hour with them.");
+  the eyebrow drops the trailing `· Pre-launch` token so it reads
+  `Expert consultations · by voice`; the hero sub drops its closing sentence
+  "Join the waitlist and we'll email you the moment it's ready."; the closing
+  title reverts from "Save your spot on the waitlist." to a booking
+  imperative; and the metadata block — `<title>`, `og:title`,
+  `meta[name=description]`, `og:description` — drops its "waitlist open" /
+  "join the waitlist" framing for a direct booking promise.
+- **`index.html` CSS** — the `.btn--status` rules (`cursor:default`, the
+  neutralized hover, and the raised `.btn__sub span` opacity) retire with the
+  header status marker they style; nothing else references that class.
+  `twitter:card` can go back to `summary_large_image` only once real
+  `og:image` artwork exists — do not restore it against an empty image well.
+- **`sitemap.xml`** — drop the `waitlist-confirmed.html` and
+  `waitlist-error.html` `<url>` entries when those pages retire, leaving the
+  three remaining page entries untouched.
+- **`waitlist-confirmed.html` and `waitlist-error.html`** — delete both files
+  outright; nothing links to them once the forms that redirected to them are
+  gone.
+- **`api/subscribe.js`** — delete the function, and remove the `SUPABASE_URL`
+  and `SUPABASE_PUBLISHABLE_KEY` Production environment variables from the
+  Vercel project so nothing keeps a live credential for an endpoint that no
+  longer exists.
+- **`vercel.json`** — `form-action` can tighten from `'self'` back to
+  `'none'` once no `<form>` remains anywhere on the site; `script-src 'none'`
+  stays either way, it was never form-dependent. Update the
+  "Content Security Policy" section above in the same commit — per the
+  doc-with-code convention below, prose describing a CSP directive moves with
+  the directive.
+- **`README.md`** — this checklist, the §Files table, and the
+  §"Deferred until App Store approval" section all move with the code they
+  describe, in the same commit as the rest of the swap.
+
 ## Design notes
 
 Kept here so future edits stay coherent rather than drifting.
