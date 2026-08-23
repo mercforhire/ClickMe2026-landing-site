@@ -176,6 +176,7 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
       <a href="#experts">For experts</a>
       <a href="support.html">Support</a>
     </nav>
+    <!-- SWAP-ON-APPROVAL: header status marker -> App Store badge link -->
     <span class="btn btn--ghost btn--status">
       <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
       <span class="btn__sub"><span>Coming soon to the</span><b>App Store</b></span>
@@ -185,8 +186,10 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
 
 <main>
   <section class="hero wrap">
+    <!-- SWAP-ON-APPROVAL: hero eyebrow and H1 -> pre-launch token drops, H1 regains its booking imperative -->
     <p class="eyebrow">Expert consultations · by voice · Pre-launch</p>
     <h1 class="hero__title">Someone already knows the answer. All it takes is half an hour with them.</h1>
+    <!-- SWAP-ON-APPROVAL: hero sub -> waitlist hand-off sentence at the tail comes off -->
     <p class="hero__sub">In the app, you search by topic, pick an open slot on the expert's calendar, and talk by voice — your card isn't charged until the session is over. Join the waitlist and we'll email you the moment it's ready.</p>
 
     <div class="strip">
@@ -206,6 +209,7 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
       </div>
     </div>
 
+    <!-- SWAP-ON-APPROVAL: hero waitlist form -> replaced by an App Store button (consent notice and audience radios retire with it) -->
     <form class="waitlist" id="join" action="/api/subscribe" method="post">
       <input type="hidden" name="source" value="hero">
       <input class="vh" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -310,11 +314,13 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
         <li>Track sessions and payouts in the app</li>
         <li>Decline or reschedule a request without a phone call</li>
       </ul>
+      <!-- SWAP-ON-APPROVAL: For-experts CTA -> App Store button -->
       <a class="btn btn--store" href="#join-closing">Join the waitlist as an expert</a>
     </div>
   </section>
 
   <section class="close wrap">
+    <!-- SWAP-ON-APPROVAL: closing title and waitlist form -> closing copy and the whole form block are replaced by booking copy and an App Store button -->
     <h2 class="close__title">Save your spot on the waitlist.</h2>
     <p class="close__p">We'll email you the moment ClickMe is ready — join the waitlist below.</p>
     <form class="waitlist" id="join-closing" action="/api/subscribe" method="post">
