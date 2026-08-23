@@ -84,6 +84,39 @@ a{color:inherit}
 .btn__sub b{display:block;font-size:15px;font-weight:700}
 .btn__sub span{display:block;font-size:10px;opacity:.7;font-weight:600}
 
+.vh{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.waitlist{display:flex;flex-direction:column;gap:14px;position:relative}
+
+.audience-field{border:0;margin:0;padding:0}
+.waitlist__legend{font-size:13px;font-weight:600;color:var(--text-2);margin:0 0 8px;padding:0}
+.audience{display:flex;flex-wrap:wrap;gap:9px}
+.audience__opt{position:relative}
+.audience__opt label{display:inline-flex;align-items:center;font-size:14px;font-weight:600;
+  padding:11px 17px;border-radius:var(--r-pill);border:1px solid var(--line);
+  color:var(--text-2);background:var(--surface-2);cursor:pointer;
+  transition:border-color .16s ease,color .16s ease,background .16s ease,box-shadow .16s ease}
+.audience__opt label:hover{border-color:var(--mint-dim);color:var(--text)}
+.audience__opt input:checked + label{background:var(--mint);border-color:var(--mint);
+  color:var(--on-mint);box-shadow:var(--glow-sm);font-weight:700}
+.audience__opt input:focus-visible + label{outline:2px solid var(--mint);outline-offset:3px}
+
+.waitlist__input{font:inherit;font-size:15px;padding:14px 20px;border-radius:var(--r-pill);
+  border:1px solid var(--line);background:var(--surface-2);color:var(--text);
+  min-width:0;flex:1 1 220px}
+.waitlist__input::placeholder{color:var(--text-3)}
+.waitlist__input:hover{border-color:var(--mint-dim)}
+.waitlist__input:focus-visible{outline:2px solid var(--mint);outline-offset:2px;border-color:var(--mint-dim)}
+.waitlist__input:user-invalid{border-color:var(--coral)}
+@media (max-width:480px){.waitlist__input{flex-basis:100%}}
+
+button.btn{font:inherit;cursor:pointer}
+button.btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+
+.waitlist__consent{margin:0;font-size:13px;line-height:1.4;color:var(--text-3);max-width:40ch}
+.waitlist__consent a{color:var(--mint)}
+
 .seq{border-top:1px solid var(--line-soft);padding:70px 0}
 .seq__list{list-style:none;margin:0;padding:0}
 .seq__item{display:grid;grid-template-columns:112px 1fr;gap:26px;
@@ -118,6 +151,8 @@ a{color:inherit}
 .close__title{font-size:clamp(29px,4.7vw,46px);letter-spacing:-.033em;font-weight:800;margin:0 0 14px}
 .close__p{color:var(--text-2);margin:0 auto 32px;max-width:44ch}
 .close .cta-row{justify-content:center}
+.close .waitlist{align-items:center}
+.close .audience{justify-content:center}
 
 .site-foot{border-top:1px solid var(--line-soft);padding:36px 0;font-size:14px;color:var(--text-3)}
 .site-foot__in{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
@@ -168,13 +203,33 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
       </div>
     </div>
 
-    <div class="cta-row">
-      <a class="btn btn--store" href="APP_STORE_URL">
-        <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
-        <span class="btn__sub"><span>Download on the</span><b>App Store</b></span>
-      </a>
-      <a class="btn btn--ghost" href="#how">See how it works</a>
-    </div>
+    <form class="waitlist" id="join" action="/api/subscribe" method="post">
+      <input type="hidden" name="source" value="hero">
+      <input class="vh" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <fieldset class="audience-field">
+        <legend class="waitlist__legend">Joining as</legend>
+        <div class="audience">
+          <span class="audience__opt">
+            <input class="vh" type="radio" id="aud-hero-client" name="audience" value="client" required>
+            <label for="aud-hero-client">Client</label>
+          </span>
+          <span class="audience__opt">
+            <input class="vh" type="radio" id="aud-hero-expert" name="audience" value="expert" required>
+            <label for="aud-hero-expert">Expert</label>
+          </span>
+        </div>
+      </fieldset>
+
+      <div class="cta-row">
+        <input class="waitlist__input" type="email" id="email-hero" name="email"
+          placeholder="you@example.com" required autocomplete="email" aria-label="Email address">
+        <button class="btn btn--store" type="submit">Join the waitlist</button>
+        <a class="btn btn--ghost" href="#how">See how it works</a>
+      </div>
+
+      <p class="waitlist__consent">We'll only email you when ClickMe is ready — nothing else. <a href="privacy.html#waitlist">Privacy policy</a>.</p>
+    </form>
   </section>
 
   <section class="seq wrap" id="how">
@@ -261,13 +316,33 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
 
   <section class="close wrap">
     <h2 class="close__title">Book the half hour.</h2>
-    <p class="close__p">ClickMe is free to download. You only pay for sessions you book.</p>
-    <div class="cta-row">
-      <a class="btn btn--store" href="APP_STORE_URL">
-        <svg width="17" height="20" viewBox="0 0 17 20" fill="currentColor" aria-hidden="true"><path d="M14.1 10.6c0-2 1.6-3 1.7-3-.9-1.4-2.4-1.5-2.9-1.6-1.2-.1-2.4.7-3 .7-.6 0-1.6-.7-2.6-.7-1.3 0-2.6.8-3.3 2C2.6 10.6 3.6 14 5 15.9c.7.9 1.5 1.9 2.5 1.9 1 0 1.4-.6 2.6-.6 1.2 0 1.5.6 2.6.6 1.1 0 1.8-.9 2.4-1.8.8-1.1 1.1-2.1 1.1-2.2 0 0-2.1-.8-2.1-3.2zM12.2 4.5c.5-.7.9-1.6.8-2.5-.8 0-1.8.5-2.4 1.2-.5.6-1 1.6-.8 2.5.9.1 1.8-.4 2.4-1.2z"/></svg>
-        <span class="btn__sub"><span>Download on the</span><b>App Store</b></span>
-      </a>
-    </div>
+    <p class="close__p">We'll email you the moment ClickMe is ready — join the waitlist below.</p>
+    <form class="waitlist" action="/api/subscribe" method="post">
+      <input type="hidden" name="source" value="closing">
+      <input class="vh" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <fieldset class="audience-field">
+        <legend class="waitlist__legend">Joining as</legend>
+        <div class="audience">
+          <span class="audience__opt">
+            <input class="vh" type="radio" id="aud-closing-client" name="audience" value="client" required>
+            <label for="aud-closing-client">Client</label>
+          </span>
+          <span class="audience__opt">
+            <input class="vh" type="radio" id="aud-closing-expert" name="audience" value="expert" required>
+            <label for="aud-closing-expert">Expert</label>
+          </span>
+        </div>
+      </fieldset>
+
+      <div class="cta-row">
+        <input class="waitlist__input" type="email" id="email-closing" name="email"
+          placeholder="you@example.com" required autocomplete="email" aria-label="Email address">
+        <button class="btn btn--store" type="submit">Join the waitlist</button>
+      </div>
+
+      <p class="waitlist__consent">We'll only email you when ClickMe is ready — nothing else. <a href="privacy.html#waitlist">Privacy policy</a>.</p>
+    </form>
   </section>
 </main>
 
