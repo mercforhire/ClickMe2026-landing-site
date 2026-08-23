@@ -14,8 +14,8 @@ the payments API.
 | `index.html` | Landing page — hero and closing waitlist forms, how a session works, features, experts, a header status marker in place of the App Store button |
 | `privacy.html` | Privacy policy (Apple requires a privacy policy URL) |
 | `support.html` | Support page (Apple requires a support URL) |
-| `waitlist-confirmed.html` | `/api/subscribe`'s `303` destination on a successful signup |
-| `waitlist-error.html` | `/api/subscribe`'s `303` destination on a failed or duplicate signup |
+| `waitlist-confirmed.html` | `/api/subscribe`'s `303` destination on a successful signup, and on a duplicate — a repeat address is treated as a silent success, not an error |
+| `waitlist-error.html` | `/api/subscribe`'s `303` destination when the write genuinely fails |
 | `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
 
 ## Fill these in before publishing
