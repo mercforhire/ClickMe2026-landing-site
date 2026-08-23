@@ -1,6 +1,6 @@
 # ClickMe — Landing Page
 
-Static marketing site for the ClickMe iOS app. Three self-contained HTML files,
+Static marketing site for the ClickMe iOS app. Five self-contained HTML files,
 no build step, no dependencies, no external requests. Open `index.html` in a
 browser to preview.
 
@@ -11,9 +11,12 @@ the payments API.
 
 | File | Purpose |
 |---|---|
-| `index.html` | Landing page — hero, how a session works, features, experts, App Store CTAs |
+| `index.html` | Landing page — hero and closing waitlist forms, how a session works, features, experts, a header status marker in place of the App Store button |
 | `privacy.html` | Privacy policy (Apple requires a privacy policy URL) |
 | `support.html` | Support page (Apple requires a support URL) |
+| `waitlist-confirmed.html` | `/api/subscribe`'s `303` destination on a successful signup |
+| `waitlist-error.html` | `/api/subscribe`'s `303` destination on a failed or duplicate signup |
+| `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
 
 ## Fill these in before publishing
 
@@ -27,10 +30,6 @@ Every token in the table below has been filled.
 | ~~`EFFECTIVE_DATE`~~ | privacy.html | ✅ filled — 21 August 2026 |
 | ~~`RESPONSE_TIME`~~ | support.html | ✅ filled — two business days |
 
-One placeholder is deliberately not in this table: it can't be filled until
-Apple approves the app, so it lives in "Deferred until App Store approval"
-below instead of here.
-
 ## What needs a human before launch
 
 The privacy policy has not been reviewed by a lawyer. It describes how the
@@ -41,30 +40,21 @@ still not legal advice. Have counsel review it before launch.
 
 ## Deferred until App Store approval
 
-These three things only happen once Apple approves the app — none of them
+These things only happen once Apple approves the app — none of them
 block launch:
 
-- **The real App Store URL.** `APP_STORE_URL` is a placeholder in four spots
-  in `index.html`. Find them with:
+- **The App Store CTAs.** The dead-link placeholder that used to sit in the
+  hero and closing slots is gone — both now carry working waitlist forms.
+  Today the header carries a non-clickable status marker and the
+  For-experts section links to the closing form by in-page anchor instead.
+  The full procedure for putting App Store CTAs back — every file that
+  changes, and in what order — lives in
+  "Post-approval swap-back checklist" below.
 
-  ```sh
-  grep -rn "APP_STORE_URL" .
-  ```
-
-  Replace them in one pass once you have the real URL:
-
-  ```sh
-  sed -i '' 's|APP_STORE_URL|https://apps.apple.com/app/id0000000000|g' *.html
-  ```
-
-- **Apple's official badge artwork.** The button uses an inline SVG Apple mark
-  so the page stays self-contained today. Apple's Identity Guidelines require
-  the official badge artwork with correct clear space and minimum size — swap
-  it in once Apple approves the app.
-
-- **The CTA swap.** Once Apple approves the app, the hero and closing CTAs
-  should send visitors to an App Store install; whatever they point at in the
-  meantime, that is the end state.
+- **Apple's official badge artwork.** The header status marker still uses an
+  inline SVG Apple mark so the page stays self-contained today. Apple's
+  Identity Guidelines require the official badge artwork with correct clear
+  space and minimum size — swap it in once Apple approves the app.
 
 ## Deploying (Vercel, as a subdirectory of uptrendinvestments.net)
 
