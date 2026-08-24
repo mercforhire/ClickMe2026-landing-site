@@ -72,11 +72,13 @@ and either can roll back on its own.
 
 ### 1. Deploy this folder
 
-Push it to its own repo and import it in Vercel, or run `vercel` from this directory.
-No build command, no output directory — it is static files. `vercel.json` sets the
-security headers, including a CSP — see "Content Security Policy" below.
+This folder is git-connected to its own public GitHub repository
+(`mercforhire/ClickMe2026-landing-site`) as its own Vercel project. A push to `main`
+auto-deploys to Production — nobody runs `vercel` from this directory. No build
+command, no output directory — it is static files. `vercel.json` sets the security
+headers, including a CSP — see "Content Security Policy" below.
 
-Note the production URL Vercel gives you, e.g. `clickme-landing.vercel.app`.
+The production URL is `https://click-me2026-landing-site.vercel.app`.
 
 ### 2. Add the rewrite to the PARENT project
 
@@ -85,8 +87,8 @@ In the `uptrendinvestments.net` project's `vercel.json`:
 ```json
 {
   "rewrites": [
-    { "source": "/clickme", "destination": "https://clickme-landing.vercel.app/" },
-    { "source": "/clickme/:path*", "destination": "https://clickme-landing.vercel.app/:path*" }
+    { "source": "/clickme", "destination": "https://click-me2026-landing-site.vercel.app/" },
+    { "source": "/clickme/:path*", "destination": "https://click-me2026-landing-site.vercel.app/:path*" }
   ]
 }
 ```
@@ -116,6 +118,31 @@ This project's Vercel dashboard carries settings that live nowhere in the repo;
 this section is the only record of them, so a from-scratch rebuild of the Vercel
 project would be reconstructed from it (see "Doc-with-code convention" below).
 
+- **Node.js runtime** — pinned to **24.x** in Settings → Build and Deployment. It is
+  pinned there deliberately rather than via a `package.json` `engines` field: this repo
+  has no `package.json`, and adding one solely to pin a dashboard setting would give it
+  its first npm-adjacent file.
+- **Environment variables** — `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, in
+  Settings → Environment Variables, scoped to **Production only** and marked
+  **Sensitive**. Their values are recorded nowhere in this repo. One consequence worth
+  knowing, because it looks like a bug otherwise: a preview deployment finds neither
+  variable, so its form posts land on `waitlist-error.html` by design — that is what
+  keeps a public preview URL from writing to the production table.
+- **Deployment Protection** — **Standard Protection** with method **Vercel
+  Authentication**, in Settings → Deployment Protection. It applies to preview
+  deployments — a deployment-specific `*.vercel.app` URL redirects to Vercel's SSO —
+  while the production domain stays public and reachable by anyone.
+- **Bot Protection** — the Firewall tab's managed Bot Protection ruleset is set to
+  **Log**, not Challenge. An interstitial on the signup path would cost real signups
+  before there is any evidence bots have found the endpoint. Escalate from Log to
+  Challenge only once one of two things is observed: junk rows in the `waitlist`
+  table, or Firewall logs showing real automated traffic on `/api/subscribe`.
+- **Rate limiting** — a Firewall custom rule named `subscribe-rate-limit`: path
+  **equals** `/api/subscribe`, Fixed Window algorithm, 60-second window, request limit
+  **5**, key **IP Address**, action **Deny**. Proven live by a 10-request single-IP
+  burst that returned `405,405,405,405,405,429,429,429,429,429` — tripping at request
+  6. While Bot Protection is in Log mode, this rule is the only mechanism on the
+  project that actually refuses a request.
 - **`X-Robots-Tag: noindex`** — set unconditionally in `vercel.json`, on the same
   `source: "/(.*)"` block as the Content Security Policy. It exists because the
   bare `*.vercel.app` production host would otherwise be indexed as duplicate
