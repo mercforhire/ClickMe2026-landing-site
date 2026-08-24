@@ -106,6 +106,16 @@ but included because the alternative is a silent 404 at the one URL the redirect
 produced. Order matters within `rewrites` too: Vercel evaluates that array top-down, so
 the exact-match rule must come first and the catch-all last. Redeploy the parent.
 
+**If the parent is a Next.js app**, also add `skipTrailingSlashRedirect: true` to its
+`next.config.ts`/`next.config.js`. Next.js normalizes `/clickme/` to `/clickme` at the
+framework level *before* `vercel.json`'s rewrites ever see the request, which puts the
+redirect and the exact-match rewrite above into a 308 loop: the redirect sends
+`/clickme` → `/clickme/`, Next immediately strips the trailing slash back to `/clickme`,
+and the cycle repeats. `skipTrailingSlashRedirect` disables that framework-level
+normalization so the JSON rules above actually get to run. The accepted tradeoff is
+that the parent no longer canonicalizes trailing slashes site-wide, not just for
+`/clickme` — confirm that's acceptable for the parent app before setting it.
+
 ### 3. Add the sitemap to the PARENT robots.txt
 
 `robots.txt` is only honored at the domain root, so `sitemap.xml` here cannot
