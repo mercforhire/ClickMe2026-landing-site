@@ -163,17 +163,16 @@ project would be reconstructed from it (see "Doc-with-code convention" below).
   burst that returned `405,405,405,405,405,429,429,429,429,429` — tripping at request
   6. While Bot Protection is in Log mode, this rule is the only mechanism on the
   project that actually refuses a request.
-- **`X-Robots-Tag: noindex`** — set unconditionally in `vercel.json`, on the same
-  `source: "/(.*)"` block as the Content Security Policy. It exists because the
-  bare `*.vercel.app` production host would otherwise be indexed as duplicate
-  content against `uptrendinvestments.net/clickme/`. It is deliberately not
-  host-conditional: once the parent-domain rewrite is live, a request proxied in
-  from the parent may still arrive at this deployment carrying its own
-  `*.vercel.app` host, and a host-conditional rule would leak `noindex` onto the
-  real site through that proxy. **It must be removed once the parent-domain
-  rewrite is live and confirmed** (see `.planning/ROADMAP.md`'s Phase 7 success
-  criteria) — forgetting to remove it silently makes the live site invisible to
-  search.
+- **`X-Robots-Tag: noindex`** — no longer set on the blanket `source: "/(.*)"`
+  block; the site is publicly indexable now that the parent-domain rewrite is
+  live. It is instead scoped to two per-path `headers` blocks in `vercel.json`,
+  `/waitlist-confirmed.html` and `/waitlist-error.html`, each carrying only that
+  one header — a post-submission confirmation page and an error page have no
+  search value, and an error page surfacing in results for the brand name is
+  actively bad. Duplicate-content defence for the bare `*.vercel.app` twin is no
+  longer carried by a header at all — it's carried by the `rel="canonical"` tag
+  already present on all five pages, each pointing at its own
+  `uptrendinvestments.net/clickme/*` URL.
 
 ## Universal Links (if you ever want them from this domain)
 
