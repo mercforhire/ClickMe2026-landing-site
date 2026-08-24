@@ -33,7 +33,19 @@ export default {
       // same confirmation page a real signup gets, while writing nothing,
       // is what makes the trap invisible instead of merely present (D-07).
       if (company.trim() !== "") {
-        return Response.redirect(new URL("/waitlist-confirmed.html", request.url), 303);
+        // The Location below is deliberately relative, not absolute: the browser
+        // resolves it against the URL it actually posted to, so a POST to
+        // /clickme/api/subscribe yields /clickme/waitlist-confirmed.html while a
+        // POST to /api/subscribe yields /waitlist-confirmed.html -- whichever Host
+        // the parent's rewrite forwards becomes irrelevant to correctness. That is
+        // also why every site below builds its response by hand rather than
+        // calling Response's static redirect helper, which parses its argument
+        // against an API base URL that does not exist server-side and throws on a
+        // relative string. A second, supporting reason: this site's own CSP sets
+        // form-action 'self', and an absolute Location pointing at the
+        // *.vercel.app host would be blocked by that policy on a redirect target
+        // in Chrome and Safari (Firefox is a documented exception).
+        return new Response(null, { status: 303, headers: { Location: "../waitlist-confirmed.html" } });
       }
 
       // The live policy's WITH CHECK rejects a non-lowercase address
@@ -47,7 +59,7 @@ export default {
       const audienceOk = audience === "client" || audience === "expert";
 
       if (!emailOk || !sourceOk || !audienceOk) {
-        return Response.redirect(new URL("/waitlist-error.html", request.url), 303);
+        return new Response(null, { status: 303, headers: { Location: "../waitlist-error.html" } });
       }
 
       const supabaseUrl = process.env.SUPABASE_URL;
@@ -57,7 +69,7 @@ export default {
       // environment variables. Until then this branch fires on every
       // request, and that is the correct behavior, not a bug to chase.
       if (!supabaseUrl || !supabaseKey) {
-        return Response.redirect(new URL("/waitlist-error.html", request.url), 303);
+        return new Response(null, { status: 303, headers: { Location: "../waitlist-error.html" } });
       }
 
       // Only Prefer: return=minimal is sent, with no query string. Any
@@ -81,7 +93,7 @@ export default {
       });
 
       if (res.status === 201) {
-        return Response.redirect(new URL("/waitlist-confirmed.html", request.url), 303);
+        return new Response(null, { status: 303, headers: { Location: "../waitlist-confirmed.html" } });
       }
 
       if (res.status === 409) {
@@ -95,7 +107,7 @@ export default {
         // code 23505. Any other code is a real conflict, not a duplicate,
         // and must not be waved through as success.
         if (duplicateBody && duplicateBody.code === "23505") {
-          return Response.redirect(new URL("/waitlist-confirmed.html", request.url), 303);
+          return new Response(null, { status: 303, headers: { Location: "../waitlist-confirmed.html" } });
         }
       }
 
@@ -103,13 +115,13 @@ export default {
       // failed write reported as success is the one outcome nothing
       // downstream could ever detect, since this key cannot read the
       // table back -- so the default here is failure, not success.
-      return Response.redirect(new URL("/waitlist-error.html", request.url), 303);
+      return new Response(null, { status: 303, headers: { Location: "../waitlist-error.html" } });
     } catch (error) {
       // Covers a missing-env-var throw during URL construction, a refused
       // connection, and anything else unforeseen -- an uncaught throw here
       // would otherwise hand the response to Vercel's own error page,
       // outside this project's design and outside its CSP.
-      return Response.redirect(new URL("/waitlist-error.html", request.url), 303);
+      return new Response(null, { status: 303, headers: { Location: "../waitlist-error.html" } });
     }
   }
 };
