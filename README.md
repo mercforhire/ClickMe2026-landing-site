@@ -110,6 +110,24 @@ instead of `/clickme/privacy.html`. Left off by default because the `.html` link
 work identically when you open the files locally by double-clicking, and enabling it
 makes every in-page link take a 308 redirect unless you also rewrite the hrefs.
 
+## Deployment settings
+
+This project's Vercel dashboard carries settings that live nowhere in the repo;
+this section is the only record of them, so a from-scratch rebuild of the Vercel
+project would be reconstructed from it (see "Doc-with-code convention" below).
+
+- **`X-Robots-Tag: noindex`** — set unconditionally in `vercel.json`, on the same
+  `source: "/(.*)"` block as the Content Security Policy. It exists because the
+  bare `*.vercel.app` production host would otherwise be indexed as duplicate
+  content against `uptrendinvestments.net/clickme/`. It is deliberately not
+  host-conditional: once the parent-domain rewrite is live, a request proxied in
+  from the parent may still arrive at this deployment carrying its own
+  `*.vercel.app` host, and a host-conditional rule would leak `noindex` onto the
+  real site through that proxy. **It must be removed once the parent-domain
+  rewrite is live and confirmed** (see `.planning/ROADMAP.md`'s Phase 7 success
+  criteria) — forgetting to remove it silently makes the live site invisible to
+  search.
+
 ## Universal Links (if you ever want them from this domain)
 
 Apple requires `/.well-known/apple-app-site-association` at the **domain root** — a
