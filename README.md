@@ -80,21 +80,31 @@ headers, including a CSP — see "Content Security Policy" below.
 
 The production URL is `https://click-me2026-landing-site.vercel.app`.
 
-### 2. Add the rewrite to the PARENT project
+### 2. Add the redirect and rewrites to the PARENT project
 
 In the `uptrendinvestments.net` project's `vercel.json`:
 
 ```json
 {
+  "redirects": [
+    { "source": "/clickme", "destination": "/clickme/", "permanent": true }
+  ],
   "rewrites": [
-    { "source": "/clickme", "destination": "https://click-me2026-landing-site.vercel.app/" },
+    { "source": "/clickme/", "destination": "https://click-me2026-landing-site.vercel.app/" },
     { "source": "/clickme/:path*", "destination": "https://click-me2026-landing-site.vercel.app/:path*" }
   ]
 }
 ```
 
-Both lines matter — the first handles `/clickme` with no trailing path, the second
-handles everything under it. Redeploy the parent.
+Vercel always processes `redirects` before `rewrites`, so the bare `/clickme` request
+is normalized to `/clickme/` (a permanent 308 — that trailing-slash URL is what every
+`rel="canonical"` tag and every `sitemap.xml` entry already names) before any rewrite
+matching happens. The exact-match `/clickme/` rewrite exists because `:path*` is a
+repeat modifier over a named parameter, not a glob, and does not cleanly match the
+trailing-slash-with-empty-remainder case — harmless if it turns out to be redundant,
+but included because the alternative is a silent 404 at the one URL the redirect just
+produced. Order matters within `rewrites` too: Vercel evaluates that array top-down, so
+the exact-match rule must come first and the catch-all last. Redeploy the parent.
 
 ### 3. Add the sitemap to the PARENT robots.txt
 

@@ -210,7 +210,7 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
     </div>
 
     <!-- SWAP-ON-APPROVAL: hero waitlist form -> replaced by an App Store button (consent notice and audience radios retire with it) -->
-    <form class="waitlist" id="join" action="/api/subscribe" method="post">
+    <form class="waitlist" id="join" action="api/subscribe" method="post">
       <input type="hidden" name="source" value="hero">
       <input class="vh" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
 
@@ -323,7 +323,7 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
     <!-- SWAP-ON-APPROVAL: closing title and waitlist form -> closing copy and the whole form block are replaced by booking copy and an App Store button -->
     <h2 class="close__title">Save your spot on the waitlist.</h2>
     <p class="close__p">We'll email you the moment ClickMe is ready — join the waitlist below.</p>
-    <form class="waitlist" id="join-closing" action="/api/subscribe" method="post">
+    <form class="waitlist" id="join-closing" action="api/subscribe" method="post">
       <input type="hidden" name="source" value="closing">
       <input class="vh" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
 
