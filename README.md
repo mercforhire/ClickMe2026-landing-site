@@ -18,7 +18,7 @@ the payments API.
 | `waitlist-error.html` | `/api/subscribe`'s `303` destination when the write genuinely fails |
 | `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
 | `screens/*.webp` | Real iOS app screenshots shown on the landing page — derivatives only, see **App screenshots** below |
-| `tools/retouch-explore.js` | Rebuilds `screens/explore.webp`, replacing seeded stock-photo avatars with the app's own placeholder. Not part of the site or any build |
+| `tools/retouch-screens.js` | Rebuilds `screens/explore.webp` and `screens/search.webp`, replacing seeded stock-photo avatars with the app's own placeholder. Not part of the site or any build |
 
 ## Fill these in before publishing
 
@@ -315,29 +315,43 @@ capture is only usable if it is free of:
 
 - stock or third-party face photos — the seeded avatars are photographs of real
   people and are not ours to publish;
-- placeholder junk — lorem ipsum topic text, a product photo standing in for an
-  avatar, a 0.0- or 2.7-star expert, an empty `EARNINGS` value;
+- placeholder junk that reads as broken UI — lorem ipsum topic text, a product photo
+  standing in for an avatar, an empty `EARNINGS` value;
 - anything the copy does not actually claim.
 
-The Search screen fails on all three counts today and is not on the page.
-
-The Explore screen **is** on the page, retouched. Its two expert avatars were seeded
-with photographs of real people, so both are replaced with the app's own no-photo
-placeholder — one by copying the placeholder the app already renders on the card
-beside it, one redrawn at thumbnail size — and the translucent tab bar, which was
-blurring the same photo across the bottom of the frame, is transplanted from a
-capture where the identical bar sits over a plain background. Copy, prices, ratings,
-categories and layout are untouched. The whole thing is reproducible:
+Two screens — **Explore** (hero) and **Search** (FIND) — carry seeded avatars that
+are photographs of real people, so both are retouched before publishing. Every such
+avatar is replaced with the app's *own* no-photo placeholder, either by copying the
+placeholder the app already renders elsewhere in the same frame, or by redrawing it
+at thumbnail size in the app's placeholder colours. The translucent tab bar was
+blurring those photos into a coloured smear across the bottom of each frame, so the
+whole bar is transplanted from a capture where the identical bar sits over a plain
+background, with the same tab selected; the script asserts alignment on the mint
+glyph of the selected tab and refuses to write a misaligned frame. Reproducible:
 
 ```
 mkdir -p /tmp/sharpenv && (cd /tmp/sharpenv && npm i sharp)
-NODE_PATH=/tmp/sharpenv/node_modules node tools/retouch-explore.js
+NODE_PATH=/tmp/sharpenv/node_modules node tools/retouch-screens.js       # both
+NODE_PATH=/tmp/sharpenv/node_modules node tools/retouch-screens.js search # just one
 ```
 
-`tools/retouch-explore.js` is not part of the site and not part of any build; it
+`tools/retouch-screens.js` is not part of the site and not part of any build; it
 exists so the retouch is auditable instead of being an image taken on trust. If the
 app is ever reseeded with avatars that are ours to publish, delete the script and
-export a clean capture through the plain pipeline above.
+export clean captures through the plain pipeline above.
+
+### The line the retouch does not cross
+
+Avatars come out because they are not ours to publish. **Data does not get edited.**
+Copy, prices, star ratings, review counts, names, job titles, categories and ordering
+are exactly what the app rendered.
+
+That has a visible consequence: the Search screen shows an expert rated 2.7 and one
+rated 0.0, because that is what the seed data contains. Publishing it that way was a
+deliberate decision (2026-09-03) — the alternative was painting better numbers onto
+the screenshot, which would misrepresent the product rather than just omit a
+photograph. If those ratings should look different, reseed the app's demo data and
+re-capture; do not edit the image.
 
 ## Design notes
 
