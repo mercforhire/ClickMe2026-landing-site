@@ -258,17 +258,14 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
           <h3 class="seq__h">Search by what you actually need</h3>
           <p class="seq__p">Browse 28 categories, from prompt engineering and AI safety to tax, design, and negotiation. Read reviews left after real sessions and save the people you want to come back to.</p>
         </div>
-        <!-- RECAPTURE-SLOT: the Explore screen ("Find your next expert") is the stronger
-             shot for this step, but the current capture carries stock face photos of real
-             people, a placeholder avatar, and a 0.0-star expert. Re-shoot Explore against
-             curated seed data — real-looking topics, monogram or owned avatars, no rating
-             below ~4.0 — export it through the same pipeline (see README), save it as
-             screens/explore.webp, and swap the <img> below for it. -->
+        <!-- The two expert avatars in this capture were seeded with photographs of real
+             people, so both are replaced with the app's own no-photo placeholder. Nothing
+             else in the frame is altered. Rebuild with tools/retouch-explore.js. -->
         <figure class="shot seq__shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/categories.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/explore.webp" width="680" height="1478"
               loading="lazy" decoding="async"
-              alt="The category browser in the ClickMe iOS app: a searchable grid of expert categories including Career &amp; Coaching, Computer Vision, Crypto &amp; Web3, Data Science &amp; Analytics, Design &amp; Creative and Education &amp; Tutoring.">
+              alt="The Explore tab in the ClickMe iOS app, headed &quot;Find your next expert&quot;: trending categories for Technology, Finance &amp; Investing and Business &amp; Strategy, featured topics priced at $75 and $160, and a recommended expert rated 4.7 across 30 reviews.">
           </div>
         </figure>
       </li>

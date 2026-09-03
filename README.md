@@ -18,6 +18,7 @@ the payments API.
 | `waitlist-error.html` | `/api/subscribe`'s `303` destination when the write genuinely fails |
 | `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
 | `screens/*.webp` | Real iOS app screenshots shown on the landing page — derivatives only, see **App screenshots** below |
+| `tools/retouch-explore.js` | Rebuilds `screens/explore.webp`, replacing seeded stock-photo avatars with the app's own placeholder. Not part of the site or any build |
 
 ## Fill these in before publishing
 
@@ -318,10 +319,25 @@ capture is only usable if it is free of:
   avatar, a 0.0- or 2.7-star expert, an empty `EARNINGS` value;
 - anything the copy does not actually claim.
 
-The Explore and Search screens fail on the first two counts today, which is why the
-strongest shot in the app is *not* on the page. `index.html` carries a
-`RECAPTURE-SLOT` comment in the FIND step describing what to re-shoot and where it
-drops in.
+The Search screen fails on all three counts today and is not on the page.
+
+The Explore screen **is** on the page, retouched. Its two expert avatars were seeded
+with photographs of real people, so both are replaced with the app's own no-photo
+placeholder — one by copying the placeholder the app already renders on the card
+beside it, one redrawn at thumbnail size — and the translucent tab bar, which was
+blurring the same photo across the bottom of the frame, is transplanted from a
+capture where the identical bar sits over a plain background. Copy, prices, ratings,
+categories and layout are untouched. The whole thing is reproducible:
+
+```
+mkdir -p /tmp/sharpenv && (cd /tmp/sharpenv && npm i sharp)
+NODE_PATH=/tmp/sharpenv/node_modules node tools/retouch-explore.js
+```
+
+`tools/retouch-explore.js` is not part of the site and not part of any build; it
+exists so the retouch is auditable instead of being an image taken on trust. If the
+app is ever reseeded with avatars that are ours to publish, delete the script and
+export a clean capture through the plain pipeline above.
 
 ## Design notes
 
