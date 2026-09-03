@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
-<title>ClickMe — 30-minute expert calls, waitlist open</title>
+<title>ClickMe — book 30- or 60-minute expert calls, waitlist open</title>
 <meta name="description" content="Search experts by topic, pick an open slot, and talk in the app. Card isn't charged until the session ends. Pre-launch — join the waitlist.">
-<meta property="og:title" content="ClickMe — 30-minute expert calls, waitlist open">
+<meta property="og:title" content="ClickMe — book 30- or 60-minute expert calls, waitlist open">
 <meta property="og:description" content="Search experts by topic, pick an open slot, and talk in the app. Charged after the call, not before. ClickMe hasn't launched yet — join the waitlist to hear the moment it does.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://uptrendinvestments.net/clickme/">
@@ -53,24 +53,24 @@ a{color:inherit}
   font-weight:800;margin:0 0 22px;max-width:15ch;text-wrap:balance}
 .hero__sub{font-size:clamp(17px,2.1vw,20px);color:var(--text-2);max-width:52ch;margin:0 0 38px}
 
-.strip{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-card);
-  padding:22px;margin:0 0 38px}
-.strip__head{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
-  margin-bottom:8px}
-.strip__who{font-weight:700;font-size:16px;letter-spacing:-.01em}
-.strip__day{font-size:13px;color:var(--text-3)}
-.strip__meta{font-size:13px;color:var(--mint);margin:0 0 18px;font-weight:600}
-.slots{display:flex;flex-wrap:wrap;gap:9px}
-.slot{font-size:14px;padding:11px 17px;border-radius:var(--r-pill);
-  border:1px solid var(--line);color:var(--text-3);background:var(--surface-2);
-  font-variant-numeric:tabular-nums;text-decoration:line-through;
-  text-decoration-color:rgba(154,163,158,.4)}
-.slot--open{color:var(--on-mint);background:var(--mint);border-color:var(--mint);
-  text-decoration:none;font-weight:700;box-shadow:var(--glow-lg);
-  display:inline-flex;align-items:center;gap:8px}
-.slot--open .dot{width:6px;height:6px;border-radius:50%;background:var(--on-mint);
-  animation:pulse 2.2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+/* Device shots — real iOS app screenshots in a dark phone frame */
+.shot{margin:0}
+.shot__frame{display:block;padding:7px;border-radius:38px;border:1px solid var(--line);
+  background:linear-gradient(155deg,#2B322E,#111613);
+  box-shadow:0 34px 60px -34px rgba(0,0,0,.95)}
+.shot__img{display:block;width:100%;height:auto;border-radius:31px;background:var(--ground)}
+.shot__cap{margin:12px 2px 0;font-size:12px;font-weight:600;letter-spacing:.01em;
+  color:var(--text-3);text-align:center}
+
+.hero__grid{display:grid;grid-template-columns:1fr;gap:52px;align-items:center}
+.hero__shot{position:relative;width:100%;max-width:262px;margin:0 auto}
+.hero__shot::before{content:"";position:absolute;inset:-14% -22%;pointer-events:none;
+  background:radial-gradient(50% 46% at 50% 42%,rgba(79,232,140,.20),transparent 70%)}
+.hero__shot .shot__frame{position:relative}
+@media (min-width:940px){
+  .hero__grid{grid-template-columns:minmax(0,1fr) 288px;gap:60px;align-items:start}
+  .hero__shot{max-width:none;margin:26px 0 0}
+}
 
 .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;
@@ -122,9 +122,17 @@ button.btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 
 .seq{border-top:1px solid var(--line-soft);padding:70px 0}
 .seq__list{list-style:none;margin:0;padding:0}
-.seq__item{display:grid;grid-template-columns:112px 1fr;gap:26px;
-  padding:24px 0;border-bottom:1px solid var(--line-soft);align-items:start}
-@media (max-width:640px){.seq__item{grid-template-columns:1fr;gap:7px}}
+.seq__item{display:grid;grid-template-columns:112px minmax(0,1fr) 200px;gap:26px;
+  padding:30px 0;border-bottom:1px solid var(--line-soft);align-items:center}
+.seq__shot{width:100%;max-width:200px}
+@media (max-width:900px){
+  .seq__item{grid-template-columns:112px minmax(0,1fr);align-items:start}
+  .seq__shot{grid-column:2;max-width:184px;margin-top:20px}
+}
+@media (max-width:640px){
+  .seq__item{grid-template-columns:1fr;gap:7px}
+  .seq__shot{grid-column:1;max-width:196px;margin-top:18px}
+}
 .seq__t{font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--mint);padding-top:5px}
 .seq__h{font-weight:700;font-size:19px;margin:0 0 5px;letter-spacing:-.015em}
 .seq__p{margin:0;color:var(--text-2);max-width:56ch}
@@ -139,6 +147,13 @@ button.btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 .pros{border-top:1px solid var(--line-soft);padding:70px 0}
 .pros__in{background:var(--surface);border:1px solid var(--line);
   border-radius:var(--r-card);padding:40px 34px}
+.pros__grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center}
+.pros__shots{display:grid;grid-template-columns:1fr 1fr;gap:16px;
+  width:100%;max-width:376px;margin:0 auto}
+@media (min-width:940px){
+  .pros__grid{grid-template-columns:minmax(0,1fr) 376px;gap:48px}
+  .pros__shots{margin:0}
+}
 .pros__title{font-size:clamp(25px,3.7vw,35px);letter-spacing:-.03em;font-weight:800;
   margin:0 0 14px;max-width:20ch;text-wrap:balance}
 .pros__p{color:var(--text-2);max-width:56ch;margin:0 0 26px}
@@ -186,28 +201,13 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
 
 <main>
   <section class="hero wrap">
+    <div class="hero__grid">
+    <div>
     <!-- SWAP-ON-APPROVAL: hero eyebrow and H1 -> pre-launch token drops, H1 regains its booking imperative -->
     <p class="eyebrow">Expert consultations · by voice · Pre-launch</p>
     <h1 class="hero__title">Someone already knows the answer. All it takes is half an hour with them.</h1>
     <!-- SWAP-ON-APPROVAL: hero sub -> waitlist hand-off sentence at the tail comes off -->
     <p class="hero__sub">In the app, you search by topic, pick an open slot on the expert's calendar, and talk by voice — your card isn't charged until the session is over. Join the waitlist and we'll email you the moment it's ready.</p>
-
-    <div class="strip">
-      <div class="strip__head">
-        <span class="strip__who">Prompt engineering tune-up</span>
-        <span class="strip__day">Today · America/Toronto</span>
-      </div>
-      <p class="strip__meta">30 min · CAD 45</p>
-      <div class="slots" role="img" aria-label="Available time slots today. 9:00, 9:30, 10:00, 11:00, 11:30 and 1:00 are booked. 10:30 is open.">
-        <span class="slot">9:00 AM</span>
-        <span class="slot">9:30 AM</span>
-        <span class="slot">10:00 AM</span>
-        <span class="slot slot--open"><span class="dot" aria-hidden="true"></span>10:30 AM</span>
-        <span class="slot">11:00 AM</span>
-        <span class="slot">11:30 AM</span>
-        <span class="slot">1:00 PM</span>
-      </div>
-    </div>
 
     <!-- SWAP-ON-APPROVAL: hero waitlist form -> replaced by an App Store button (consent notice and audience radios retire with it) -->
     <form class="waitlist" id="join" action="api/subscribe" method="post">
@@ -237,6 +237,16 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
 
       <p class="waitlist__consent">We'll only email you when ClickMe is ready — nothing else. <a href="privacy.html#waitlist">Privacy policy</a>.</p>
     </form>
+    </div>
+
+    <figure class="shot hero__shot">
+      <div class="shot__frame">
+        <img class="shot__img" src="screens/my-bookings.webp" width="680" height="1478"
+          decoding="async" fetchpriority="high"
+          alt="The My Bookings screen in the ClickMe iOS app, listing two upcoming sessions — a Product Roadmap Working Session with Marcus Webb on Sep 6 and a Pitch Deck Teardown with Jonas Berg on Sep 9 — each with Reschedule and Message buttons.">
+      </div>
+    </figure>
+    </div>
   </section>
 
   <section class="seq wrap" id="how">
@@ -248,20 +258,47 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
           <h3 class="seq__h">Search by what you actually need</h3>
           <p class="seq__p">Browse 28 categories, from prompt engineering and AI safety to tax, design, and negotiation. Read reviews left after real sessions and save the people you want to come back to.</p>
         </div>
+        <!-- RECAPTURE-SLOT: the Explore screen ("Find your next expert") is the stronger
+             shot for this step, but the current capture carries stock face photos of real
+             people, a placeholder avatar, and a 0.0-star expert. Re-shoot Explore against
+             curated seed data — real-looking topics, monogram or owned avatars, no rating
+             below ~4.0 — export it through the same pipeline (see README), save it as
+             screens/explore.webp, and swap the <img> below for it. -->
+        <figure class="shot seq__shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/categories.webp" width="680" height="1478"
+              loading="lazy" decoding="async"
+              alt="The category browser in the ClickMe iOS app: a searchable grid of expert categories including Career &amp; Coaching, Computer Vision, Crypto &amp; Web3, Data Science &amp; Analytics, Design &amp; Creative and Education &amp; Tutoring.">
+          </div>
+        </figure>
       </li>
       <li class="seq__item">
         <span class="seq__t">BOOK</span>
         <div>
           <h3 class="seq__h">Take an open slot on their calendar</h3>
-          <p class="seq__p">Sessions run in 30-minute blocks against the expert's real availability, in your timezone. Your card is authorized when you book, not charged.</p>
+          <p class="seq__p">Sessions run in 30- or 60-minute blocks against the expert's real availability, in your timezone. Your card is authorized when you book, not charged.</p>
         </div>
+        <figure class="shot seq__shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/book-a-session.webp" width="680" height="1478"
+              loading="lazy" decoding="async"
+              alt="The Book a Session screen in the ClickMe iOS app: a September calendar with the 2nd selected, available time slots of 10:30 PM and 11:00 PM in America/Toronto with 10:00 PM already taken, and a meeting type choice between In-app Voice Call and Skype/Zoom Call.">
+          </div>
+        </figure>
       </li>
       <li class="seq__item">
         <span class="seq__t">TALK</span>
         <div>
           <h3 class="seq__h">Call inside the app</h3>
-          <p class="seq__p">Voice calls happen in ClickMe. Neither of you hands over a phone number, and you can message in the same thread before and after.</p>
+          <p class="seq__p">Voice calls run inside ClickMe by default, so neither of you hands over a phone number — or you can agree on Skype or Zoom instead. Either way, messages stay in one thread before and after.</p>
         </div>
+        <figure class="shot seq__shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/chat.webp" width="680" height="1478"
+              loading="lazy" decoding="async"
+              alt="A message thread in the ClickMe iOS app with Olivia Park, where the expert and client trade notes and agree on a start time before the session.">
+          </div>
+        </figure>
       </li>
       <li class="seq__item">
         <span class="seq__t">AFTER</span>
@@ -269,6 +306,13 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
           <h3 class="seq__h">Pay for the time you used</h3>
           <p class="seq__p">The charge goes through once the session ends. If it doesn't happen, you aren't charged for it.</p>
         </div>
+        <figure class="shot seq__shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/booking-summary.webp" width="680" height="1478"
+              loading="lazy" decoding="async"
+              alt="A confirmed booking summary in the ClickMe iOS app: Sep 4 2026, 11:00 AM to 12:00 PM, 60 minutes, topic Cloud Migration Strategy Session, meeting type In-App Voice, consultation fee CA$150 per session.">
+          </div>
+        </figure>
       </li>
     </ol>
   </section>
@@ -282,7 +326,7 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
       </div>
       <div class="feat__card">
         <h3 class="feat__h">Private voice calls</h3>
-        <p class="feat__p">Calls run through the app. No numbers change hands.</p>
+        <p class="feat__p">In-app voice by default, with Skype or Zoom if you both prefer it. No phone numbers change hands.</p>
       </div>
       <div class="feat__card">
         <h3 class="feat__h">Messages that stay put</h3>
@@ -305,6 +349,8 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
 
   <section class="pros wrap" id="experts">
     <div class="pros__in">
+      <div class="pros__grid">
+      <div>
       <p class="eyebrow">For experts</p>
       <h2 class="pros__title">Set your hours. Get paid to your bank.</h2>
       <p class="pros__p">Publish the topics you take questions on, price each one, and open the hours you want. ClickMe handles the booking, the call, and the money.</p>
@@ -316,6 +362,27 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
       </ul>
       <!-- SWAP-ON-APPROVAL: For-experts CTA -> App Store button -->
       <a class="btn btn--store" href="#join-closing">Join the waitlist as an expert</a>
+      </div>
+
+      <div class="pros__shots">
+        <figure class="shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/expert-dashboard.webp" width="680" height="1478"
+              loading="lazy" decoding="async"
+              alt="The expert dashboard in the ClickMe iOS app, showing one pending booking request, one reschedule request, today's sessions, and a prompt to complete payout setup.">
+          </div>
+          <figcaption class="shot__cap">Your dashboard</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/expert-topics.webp" width="680" height="1478"
+              loading="lazy" decoding="async"
+              alt="An expert's Topics &amp; Pricing list in the ClickMe iOS app: Cloud Migration Strategy Session at CA$150 per session, Kubernetes Troubleshooting Clinic at CA$95, and Terraform &amp; IaC Review at CA$125.">
+          </div>
+          <figcaption class="shot__cap">Your topics and pricing</figcaption>
+        </figure>
+      </div>
+      </div>
     </div>
   </section>
 
