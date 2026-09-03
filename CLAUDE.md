@@ -38,9 +38,12 @@ this one.
   must live at the PARENT domain root. A sitemap here cannot advertise itself.
 
 - **Design**: Dark-only, matching the iOS app. Mint accent with glow, pill geometry.
-- **Copy**: Grounded in real backend behavior — 30-minute blocks, charged after the
-  session, in-app voice, reviews gated on completed sessions. Marketing copy must not
-  drift from what the product actually does.
+- **Copy**: Grounded in real backend behavior — 30- and 60-minute blocks, charged
+  after the session, in-app voice by default with Skype/Zoom as an option, reviews
+  gated on completed sessions. Marketing copy must not drift from what the product
+  actually does. (Corrected 2026-09-02 against iOS screenshots: the app offers both
+  30- and 60-minute sessions and a Skype/Zoom meeting type; the site had claimed
+  30-minute, in-app-only.)
 
 - **Legal**: Legal pages name Uptrend Investments Inc. and carry a real registered
   address. Privacy policy changes need legal review, not just an edit.
