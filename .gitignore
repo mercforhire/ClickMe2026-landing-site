@@ -1,3 +1,6 @@
 .DS_Store
 .vercel
 .planning/
+
+# Full-resolution simulator captures (19 MB). Only screens/*.webp derivatives ship.
+ios screenshots/

@@ -17,6 +17,7 @@ the payments API.
 | `waitlist-confirmed.html` | `/api/subscribe`'s `303` destination on a successful signup, and on a duplicate — a repeat address is treated as a silent success, not an error |
 | `waitlist-error.html` | `/api/subscribe`'s `303` destination when the write genuinely fails |
 | `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
+| `screens/*.webp` | Real iOS app screenshots shown on the landing page — derivatives only, see **App screenshots** below |
 
 ## Fill these in before publishing
 
@@ -289,6 +290,39 @@ together, not alongside a second CTA.
   §"Deferred until App Store approval" section all move with the code they
   describe, in the same commit as the rest of the swap.
 
+## App screenshots
+
+`screens/*.webp` are derivatives. The full-resolution simulator captures live in
+`ios screenshots/`, which is **gitignored** — 19 MB of PNGs has no business in a
+marketing repo. Keep that folder on the machine that takes the captures; it is the
+only source for a re-crop.
+
+Regenerate a screen (no repo dependency is added — `sharp-cli` runs through `npx`,
+outside the project, and there is still no `package.json` here):
+
+```
+npx --yes sharp-cli -i "ios screenshots/<capture>.png" -o screens -f webp -q 78 resize 680
+mv "screens/<capture>.webp" screens/<name>.webp
+```
+
+680px wide is 2x the largest display size on the page. `sips` can read WebP but not
+write it, and its JPEG output runs ~3x larger on this dark UI, so WebP it is.
+All seven files together are 288 KB.
+
+**Rules for what may go on the page.** These screenshots are marketing claims, so a
+capture is only usable if it is free of:
+
+- stock or third-party face photos — the seeded avatars are photographs of real
+  people and are not ours to publish;
+- placeholder junk — lorem ipsum topic text, a product photo standing in for an
+  avatar, a 0.0- or 2.7-star expert, an empty `EARNINGS` value;
+- anything the copy does not actually claim.
+
+The Explore and Search screens fail on the first two counts today, which is why the
+strongest shot in the app is *not* on the page. `index.html` carries a
+`RECAPTURE-SLOT` comment in the FIND step describing what to re-shoot and where it
+drops in.
+
 ## Design notes
 
 Kept here so future edits stay coherent rather than drifting.
@@ -297,9 +331,9 @@ Kept here so future edits stay coherent rather than drifting.
   surfaces (`#171B18`) that lift cards and panels off it, and a single mint
   accent (`#4FE88C`) that carries every interactive and live-state cue.
 - **Glow** — `--glow-sm` and `--glow-lg`, both mint-derived shadows, land on
-  the wordmark dot, the open slot pill, the primary CTA, and the "For experts"
-  bullet markers — the same handful of places the accent itself appears. The
-  small dot inside the open slot pulses on opacity alone and carries no glow.
+  the wordmark dot, the selected audience pill, the primary CTA, and the
+  "For experts" bullet markers — the same handful of places the accent itself
+  appears. The hero device shot sits on a soft mint radial rather than a shadow.
 - **Geometry** — pill geometry: slots and buttons are fully rounded pills;
   cards and panels use a large, soft corner radius instead.
 - **Accent rule** — mint marks what is live or what you can act on, nothing
@@ -309,8 +343,12 @@ Kept here so future edits stay coherent rather than drifting.
   web fonts, which keeps every page self-contained and fast.
 - **Dark-only** — the site is dark-only, deliberately: the iOS app it markets
   has no light mode, so there is no light theme for this site to match.
-- **Signature** — the hero schedule strip: booked slots struck through and dimmed,
-  one slot lit with a pulsing dot. It is the product's core object, not decoration.
+- **Signature** — real app screenshots in a dark phone frame (`.shot`), one in the
+  hero and one against each step of "how a session works". These replaced a
+  hand-written CSS mock of an availability strip: the mock invented a topic, a
+  price and a slot grid that do not exist, and the real Book-a-Session screen
+  now carries the same idea truthfully. Screenshots are the product's core
+  object here, not decoration — do not add a screenshot that has nothing to say.
 - **No numbered steps** in the features grid — those aren't a sequence. The
   "how a session works" list *is* ordered, so it uses FIND / BOOK / TALK / AFTER
   markers that name the stage instead of counting it.
