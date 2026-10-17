@@ -18,7 +18,6 @@ the payments API.
 | `waitlist-error.html` | `/api/subscribe`'s `303` destination when the write genuinely fails |
 | `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
 | `screens/*.webp` | Real iOS app screenshots shown on the landing page — derivatives only, see **App screenshots** below |
-| `tools/retouch-screens.js` | Rebuilds `screens/explore.webp` and `screens/search.webp`, replacing seeded stock-photo avatars with the app's own placeholder. Not part of the site or any build |
 
 ## Fill these in before publishing
 
@@ -293,65 +292,51 @@ together, not alongside a second CTA.
 
 ## App screenshots
 
-`screens/*.webp` are derivatives. The full-resolution simulator captures live in
-`ios screenshots/`, which is **gitignored** — 19 MB of PNGs has no business in a
-marketing repo. Keep that folder on the machine that takes the captures; it is the
-only source for a re-crop.
+`screens/*.webp` are derivatives. The full-resolution captures live in
+`app-store-screenshots/` — the App Store set, 1320×2868 PNGs, with a 6.3-inch set
+under `iphone-6.3/`. That folder is **gitignored**: 34 MB of PNGs has no business
+in a marketing repo. Keep it on the machine that makes the captures; it is the only
+source for a re-crop.
 
 Regenerate a screen (no repo dependency is added — `sharp-cli` runs through `npx`,
 outside the project, and there is still no `package.json` here):
 
 ```
-npx --yes sharp-cli -i "ios screenshots/<capture>.png" -o screens -f webp -q 78 resize 680
+npx --yes sharp-cli -i "app-store-screenshots/<capture>.png" -o screens -f webp -q 78 resize 680
 mv "screens/<capture>.webp" screens/<name>.webp
 ```
 
-680px wide is 2x the largest display size on the page. `sips` can read WebP but not
-write it, and its JPEG output runs ~3x larger on this dark UI, so WebP it is.
-All seven files together are 288 KB.
+680px wide is 2x the largest display size on the page, which makes each file
+680×1477. `sips` can read WebP but not write it, and its JPEG output runs ~3x larger
+on this dark UI, so WebP it is. All twelve files together are 536 KB.
+
+| File | Capture | Where |
+|---|---|---|
+| `explore.webp` | `01-explore` | Hero, front phone |
+| `expert-profile.webp` | `02-expert-profile` | Hero, back phone (decorative, `alt=""`) |
+| `explore-experts.webp` | `01b-explore-experts` | FIND |
+| `book-a-session.webp` | `03-booking` | BOOK |
+| `voice-call.webp` | `04-voice-call` | TALK |
+| `reviews.webp` | `09-reviews` | AFTER |
+| `booking-summary.webp`, `chat.webp`, `mode-switch.webp` | `03b-booking-summary`, `05-chat`, `10-mode-switch` | "What's in the app" gallery |
+| `expert-dashboard.webp`, `expert-topics.webp`, `payouts.webp` | `06-earnings`, `07-topic-setup`, `06c-payouts` | For experts |
 
 **Rules for what may go on the page.** These screenshots are marketing claims, so a
 capture is only usable if it is free of:
 
-- stock or third-party face photos — the seeded avatars are photographs of real
-  people and are not ours to publish;
+- face photos that are not cleared for marketing use. The avatars in the
+  `app-store-screenshots/` set (Ada Kensington, Maya Singh and the rest) were
+  confirmed cleared to publish on 2026-10-17 and ship unretouched. Any capture from
+  another source needs the same check;
 - placeholder junk that reads as broken UI — lorem ipsum topic text, a product photo
   standing in for an avatar, an empty `EARNINGS` value;
-- anything the copy does not actually claim.
+- anything the copy does not actually claim. In particular, the site says sessions
+  are 30 or 60 minutes, so captures showing a 45-minute topic (`02b-expert-topics`,
+  `02c-expert-recent-reviews`, `08b-past-bookings`) stay off the page.
 
-Two screens — **Explore** (hero) and **Search** (FIND) — carry seeded avatars that
-are photographs of real people, so both are retouched before publishing. Every such
-avatar is replaced with the app's *own* no-photo placeholder, either by copying the
-placeholder the app already renders elsewhere in the same frame, or by redrawing it
-at thumbnail size in the app's placeholder colours. The translucent tab bar was
-blurring those photos into a coloured smear across the bottom of each frame, so the
-whole bar is transplanted from a capture where the identical bar sits over a plain
-background, with the same tab selected; the script asserts alignment on the mint
-glyph of the selected tab and refuses to write a misaligned frame. Reproducible:
-
-```
-mkdir -p /tmp/sharpenv && (cd /tmp/sharpenv && npm i sharp)
-NODE_PATH=/tmp/sharpenv/node_modules node tools/retouch-screens.js       # both
-NODE_PATH=/tmp/sharpenv/node_modules node tools/retouch-screens.js search # just one
-```
-
-`tools/retouch-screens.js` is not part of the site and not part of any build; it
-exists so the retouch is auditable instead of being an image taken on trust. If the
-app is ever reseeded with avatars that are ours to publish, delete the script and
-export clean captures through the plain pipeline above.
-
-### The line the retouch does not cross
-
-Avatars come out because they are not ours to publish. **Data does not get edited.**
-Copy, prices, star ratings, review counts, names, job titles, categories and ordering
-are exactly what the app rendered.
-
-That has a visible consequence: the Search screen shows an expert rated 2.7 and one
-rated 0.0, because that is what the seed data contains. Publishing it that way was a
-deliberate decision (2026-09-03) — the alternative was painting better numbers onto
-the screenshot, which would misrepresent the product rather than just omit a
-photograph. If those ratings should look different, reseed the app's demo data and
-re-capture; do not edit the image.
+**Data does not get edited.** Copy, prices, star ratings, review counts, names, job
+titles, categories and ordering are exactly what the app rendered. If a screen's
+data is wrong for marketing, reseed the app and re-capture; do not edit the image.
 
 ## Design notes
 
@@ -363,7 +348,7 @@ Kept here so future edits stay coherent rather than drifting.
 - **Glow** — `--glow-sm` and `--glow-lg`, both mint-derived shadows, land on
   the wordmark dot, the selected audience pill, the primary CTA, and the
   "For experts" bullet markers — the same handful of places the accent itself
-  appears. The hero device shot sits on a soft mint radial rather than a shadow.
+  appears. The hero device shots sit on a soft mint radial rather than a shadow.
 - **Geometry** — pill geometry: slots and buttons are fully rounded pills;
   cards and panels use a large, soft corner radius instead.
 - **Accent rule** — mint marks what is live or what you can act on, nothing
@@ -373,8 +358,10 @@ Kept here so future edits stay coherent rather than drifting.
   web fonts, which keeps every page self-contained and fast.
 - **Dark-only** — the site is dark-only, deliberately: the iOS app it markets
   has no light mode, so there is no light theme for this site to match.
-- **Signature** — real app screenshots in a dark phone frame (`.shot`), one in the
-  hero and one against each step of "how a session works". These replaced a
+- **Signature** — real app screenshots in a dark phone frame (`.shot`): two
+  stacked in the hero, one against each step of "how a session works", and
+  three-phone `.gallery` rows in "What's in the app" and the For-experts card
+  (rows scroll sideways on narrow screens rather than shrinking the phones). These replaced a
   hand-written CSS mock of an availability strip: the mock invented a topic, a
   price and a slot grid that do not exist, and the real Book-a-Session screen
   now carries the same idea truthfully. Screenshots are the product's core
