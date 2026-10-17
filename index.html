@@ -45,7 +45,7 @@ a{color:inherit}
 .site-nav a:hover{color:var(--mint)}
 @media (max-width:760px){.site-nav{display:none}}
 
-.hero{position:relative;padding:96px 0 78px}
+.hero{position:relative;padding-block:96px 78px}
 .hero::before{content:"";position:absolute;inset:-10% -20% 40%;pointer-events:none;
   background:radial-gradient(60% 55% at 50% 0%,rgba(79,232,140,.13),transparent 70%)}
 .hero > *{position:relative}
@@ -63,14 +63,24 @@ a{color:inherit}
   color:var(--text-3);text-align:center}
 
 .hero__grid{display:grid;grid-template-columns:1fr;gap:52px;align-items:center}
-.hero__shot{position:relative;width:100%;max-width:262px;margin:0 auto}
-.hero__shot::before{content:"";position:absolute;inset:-14% -22%;pointer-events:none;
-  background:radial-gradient(50% 46% at 50% 42%,rgba(79,232,140,.20),transparent 70%)}
-.hero__shot .shot__frame{position:relative}
+/* Two phones stacked in one grid cell: profile behind, Explore in front */
+.hero__stack{position:relative;display:grid;width:100%;max-width:340px;margin:0 auto}
+.hero__stack::before{content:"";position:absolute;inset:-12% -20%;pointer-events:none;
+  background:radial-gradient(50% 46% at 50% 45%,rgba(79,232,140,.20),transparent 70%)}
+.hero__stack > .shot{grid-area:1/1;position:relative;width:76%}
+.hero__stack .shot--back{justify-self:end}
+.hero__stack .shot--back .shot__img{opacity:.62}
+.hero__stack .shot--front{justify-self:start;margin-top:72px;z-index:1}
 @media (min-width:940px){
-  .hero__grid{grid-template-columns:minmax(0,1fr) 288px;gap:60px;align-items:start}
-  .hero__shot{max-width:none;margin:26px 0 0}
+  .hero__grid{grid-template-columns:minmax(0,1fr) 360px;gap:56px;align-items:start}
+  .hero__stack{max-width:none;margin:0}
 }
+
+/* A row of phones; scrolls sideways on narrow screens instead of shrinking them */
+.gallery{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(178px,1fr);gap:18px;
+  overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 10px;margin:0 -2px}
+.gallery > .shot{scroll-snap-align:start}
+.gallery:focus-visible{outline:2px solid var(--mint);outline-offset:4px;border-radius:12px}
 
 .cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:11px;text-decoration:none;
@@ -120,7 +130,7 @@ button.btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 .waitlist__consent{margin:0;font-size:13px;line-height:1.4;color:var(--text-3);max-width:40ch}
 .waitlist__consent a{color:var(--mint)}
 
-.seq{border-top:1px solid var(--line-soft);padding:70px 0}
+.seq{border-top:1px solid var(--line-soft);padding-block:70px}
 .seq__list{list-style:none;margin:0;padding:0}
 .seq__item{display:grid;grid-template-columns:112px minmax(0,1fr) 200px;gap:26px;
   padding:30px 0;border-bottom:1px solid var(--line-soft);align-items:center}
@@ -137,22 +147,22 @@ button.btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 .seq__h{font-weight:700;font-size:19px;margin:0 0 5px;letter-spacing:-.015em}
 .seq__p{margin:0;color:var(--text-2);max-width:56ch}
 
-.feat{border-top:1px solid var(--line-soft);padding:70px 0}
-.feat__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px}
+.feat{border-top:1px solid var(--line-soft);padding-block:70px}
+.feat .gallery{max-width:640px;margin:0 auto 46px}
+.feat__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px}
 .feat__card{background:var(--surface);border:1px solid var(--line);
   border-radius:var(--r-card);padding:26px 24px}
 .feat__h{font-weight:700;font-size:16px;margin:0 0 8px;letter-spacing:-.01em}
 .feat__p{margin:0;font-size:15px;color:var(--text-2)}
 
-.pros{border-top:1px solid var(--line-soft);padding:70px 0}
+.pros{border-top:1px solid var(--line-soft);padding-block:70px}
 .pros__in{background:var(--surface);border:1px solid var(--line);
   border-radius:var(--r-card);padding:40px 34px}
 .pros__grid{display:grid;grid-template-columns:1fr;gap:40px;align-items:center}
-.pros__shots{display:grid;grid-template-columns:1fr 1fr;gap:16px;
-  width:100%;max-width:376px;margin:0 auto}
+.pros__shots{grid-auto-columns:minmax(160px,1fr);gap:14px}
 @media (min-width:940px){
-  .pros__grid{grid-template-columns:minmax(0,1fr) 376px;gap:48px}
-  .pros__shots{margin:0}
+  .pros__grid{grid-template-columns:minmax(0,1fr) 500px;gap:44px}
+  .pros__shots .shot:nth-child(odd){margin-top:28px}
 }
 .pros__title{font-size:clamp(25px,3.7vw,35px);letter-spacing:-.03em;font-weight:800;
   margin:0 0 14px;max-width:20ch;text-wrap:balance}
@@ -162,7 +172,7 @@ button.btn:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 .pros__list li::before{content:"";position:absolute;left:0;top:8px;width:10px;height:10px;
   border-radius:50%;background:var(--mint);box-shadow:var(--glow-sm)}
 
-.close{border-top:1px solid var(--line-soft);padding:84px 0 92px;text-align:center;position:relative}
+.close{border-top:1px solid var(--line-soft);padding-block:84px 92px;text-align:center;position:relative}
 .close::before{content:"";position:absolute;inset:20% 20% 0;pointer-events:none;
   background:radial-gradient(50% 60% at 50% 50%,rgba(79,232,140,.10),transparent 70%)}
 .close > *{position:relative}
@@ -239,16 +249,21 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
     </form>
     </div>
 
-    <!-- The two expert avatars in this capture were seeded with photographs of real
-         people, so both are replaced with the app's own no-photo placeholder. Nothing
-         else in the frame is altered. Rebuild with tools/retouch-screens.js. -->
-    <figure class="shot hero__shot">
-      <div class="shot__frame">
-        <img class="shot__img" src="screens/explore.webp" width="680" height="1478"
-          decoding="async" fetchpriority="high"
-          alt="The Explore tab in the ClickMe iOS app, headed &quot;Find your next expert&quot;: trending categories for Technology, Finance &amp; Investing and Business &amp; Strategy, featured topics priced at $75 and $160, and a recommended expert rated 4.7 across 30 reviews.">
-      </div>
-    </figure>
+    <div class="hero__stack">
+      <figure class="shot shot--back" aria-hidden="true">
+        <div class="shot__frame">
+          <img class="shot__img" src="screens/expert-profile.webp" width="680" height="1477"
+            decoding="async" alt="">
+        </div>
+      </figure>
+      <figure class="shot shot--front">
+        <div class="shot__frame">
+          <img class="shot__img" src="screens/explore.webp" width="680" height="1477"
+            decoding="async" fetchpriority="high"
+            alt="The Explore tab in the ClickMe iOS app, headed &quot;Find your next expert&quot;: trending categories for Technology, Business &amp; Strategy and Finance &amp; Investing, featured topics priced at $110 and $140, and a recommended expert, Ada Kensington, Staff DevOps Engineer, rated 4.8 across 14 reviews.">
+        </div>
+      </figure>
+    </div>
     </div>
   </section>
 
@@ -261,15 +276,11 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
           <h3 class="seq__h">Search by what you actually need</h3>
           <p class="seq__p">Browse 28 categories, from prompt engineering and AI safety to tax, design, and negotiation. Read reviews left after real sessions and save the people you want to come back to.</p>
         </div>
-        <!-- Four expert avatars in this capture were seeded with photographs of real
-             people, so all four are replaced with the app's own no-photo placeholder.
-             The star ratings are the app's own seeded demo data and are deliberately
-             left alone. Rebuild with tools/retouch-screens.js. -->
         <figure class="shot seq__shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/search.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/explore-experts.webp" width="680" height="1477"
               loading="lazy" decoding="async"
-              alt="Expert search in the ClickMe iOS app: a &quot;Search for experts&quot; field, category filter pills for AI Agents &amp; Automation and AI Ethics, a &quot;Sort by most popular&quot; control, and a list of experts with their job titles, expertise tags and star ratings.">
+              alt="Recommended Experts in the ClickMe iOS app: Ada Kensington, Staff DevOps Engineer; Sofia Alvarez, Principal Product Designer; Marcus Webb, Senior Product Director; Noor Hassan, Licensed Clinical Psychologist; and Grace Okafor, Executive Leadership Coach — each with a star rating, review count and expertise tags.">
           </div>
         </figure>
       </li>
@@ -281,9 +292,9 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
         </div>
         <figure class="shot seq__shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/book-a-session.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/book-a-session.webp" width="680" height="1477"
               loading="lazy" decoding="async"
-              alt="The Book a Session screen in the ClickMe iOS app: a September calendar with the 2nd selected, available time slots of 10:30 PM and 11:00 PM in America/Toronto with 10:00 PM already taken, and a meeting type choice between In-app Voice Call and Skype/Zoom Call.">
+              alt="The Book a Session screen in the ClickMe iOS app: expert Ada Kensington, topic Cloud Migration Strategy Session at 60 minutes for CAD 150, an October 2026 calendar with the 16th selected, and available time slots from 9:00 AM in America/Toronto.">
           </div>
         </figure>
       </li>
@@ -295,23 +306,23 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
         </div>
         <figure class="shot seq__shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/chat.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/voice-call.webp" width="680" height="1477"
               loading="lazy" decoding="async"
-              alt="A message thread in the ClickMe iOS app with Olivia Park, where the expert and client trade notes and agree on a start time before the session.">
+              alt="An in-app voice call in the ClickMe iOS app: client and expert avatars side by side, Ada Kensington, Cloud Migration Strategy Session from 2:56 PM to 3:56 PM, a running timer showing Connected, and Minimize, Chat, Mute, Speaker and End Call controls.">
           </div>
         </figure>
       </li>
       <li class="seq__item">
         <span class="seq__t">AFTER</span>
         <div>
-          <h3 class="seq__h">Pay for the time you used</h3>
-          <p class="seq__p">The charge goes through once the session ends. If it doesn't happen, you aren't charged for it.</p>
+          <h3 class="seq__h">Pay for the time you used, then review it</h3>
+          <p class="seq__p">The charge goes through once the session ends. If it doesn't happen, you aren't charged for it. Afterwards you can leave a review — and only people who completed a session can.</p>
         </div>
         <figure class="shot seq__shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/booking-summary.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/reviews.webp" width="680" height="1477"
               loading="lazy" decoding="async"
-              alt="A confirmed booking summary in the ClickMe iOS app: Sep 4 2026, 11:00 AM to 12:00 PM, 60 minutes, topic Cloud Migration Strategy Session, meeting type In-App Voice, consultation fee CA$150 per session.">
+              alt="An expert's reviews in the ClickMe iOS app: an overall rating of 4.8 from 14 reviews, then five-star reviews from clients, each naming the topic of the session it came from and its date.">
           </div>
         </figure>
       </li>
@@ -320,6 +331,32 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
 
   <section class="feat wrap">
     <p class="eyebrow">What's in the app</p>
+    <div class="gallery" tabindex="0" role="group" aria-label="App screens">
+      <figure class="shot">
+        <div class="shot__frame">
+          <img class="shot__img" src="screens/booking-summary.webp" width="680" height="1477"
+            loading="lazy" decoding="async"
+            alt="The booking form in the ClickMe iOS app: a 10:00 AM slot selected, a meeting type choice between In-app Voice Call and Skype/Zoom Call, an optional message to the expert, and a summary of a 60-minute Cloud Migration Strategy Session for CAD 150 above a Book Now button.">
+        </div>
+        <figcaption class="shot__cap">In-app voice or Skype/Zoom</figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="shot__frame">
+          <img class="shot__img" src="screens/chat.webp" width="680" height="1477"
+            loading="lazy" decoding="async"
+            alt="A message thread in the ClickMe iOS app between a client and Ada Kensington, where they trade notes before a cloud migration session and the client asks to push the start time by 15 minutes.">
+        </div>
+        <figcaption class="shot__cap">One thread per expert</figcaption>
+      </figure>
+      <figure class="shot">
+        <div class="shot__frame">
+          <img class="shot__img" src="screens/mode-switch.webp" width="680" height="1477"
+            loading="lazy" decoding="async"
+            alt="The Mode Switcher in the ClickMe iOS app: Client Mode, to find and book experts, marked active; and Expert Mode, to manage bookings and profile.">
+        </div>
+        <figcaption class="shot__cap">Client or expert, one account</figcaption>
+      </figure>
+    </div>
     <div class="feat__grid">
       <div class="feat__card">
         <h3 class="feat__h">Real availability</h3>
@@ -365,22 +402,30 @@ a:focus-visible{outline:2px solid var(--mint);outline-offset:3px;border-radius:6
       <a class="btn btn--store" href="#join-closing">Join the waitlist as an expert</a>
       </div>
 
-      <div class="pros__shots">
+      <div class="gallery pros__shots" tabindex="0" role="group" aria-label="Expert screens">
         <figure class="shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/expert-dashboard.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/expert-dashboard.webp" width="680" height="1477"
               loading="lazy" decoding="async"
-              alt="The expert dashboard in the ClickMe iOS app, showing one pending booking request, one reschedule request, today's sessions, and a prompt to complete payout setup.">
+              alt="The expert dashboard in the ClickMe iOS app: one pending booking request, one reschedule request, a session starting now with a Join Session button, and a financial summary of $166.50 this week with the next payout on Oct 22.">
           </div>
           <figcaption class="shot__cap">Your dashboard</figcaption>
         </figure>
         <figure class="shot">
           <div class="shot__frame">
-            <img class="shot__img" src="screens/expert-topics.webp" width="680" height="1478"
+            <img class="shot__img" src="screens/expert-topics.webp" width="680" height="1477"
               loading="lazy" decoding="async"
-              alt="An expert's Topics &amp; Pricing list in the ClickMe iOS app: Cloud Migration Strategy Session at CA$150 per session, Kubernetes Troubleshooting Clinic at CA$95, and Terraform &amp; IaC Review at CA$125.">
+              alt="An expert's Topics &amp; Pricing list in the ClickMe iOS app: Cloud Migration Strategy Session at CA$150 per session, Kubernetes Troubleshooting Clinic at CA$95, Terraform &amp; IaC Review at CA$125, Incident Response Postmortem at CA$90, and Platform Engineer Career Coaching at CA$160.">
           </div>
           <figcaption class="shot__cap">Your topics and pricing</figcaption>
+        </figure>
+        <figure class="shot">
+          <div class="shot__frame">
+            <img class="shot__img" src="screens/payouts.webp" width="680" height="1477"
+              loading="lazy" decoding="async"
+              alt="Payouts in the ClickMe iOS app: payment on hold until eight upcoming sessions complete, the next payout on October 22, 2026 by bank transfer, and recent activity listing each session's earnings as pending or processed.">
+          </div>
+          <figcaption class="shot__cap">Your payouts</figcaption>
         </figure>
       </div>
       </div>
