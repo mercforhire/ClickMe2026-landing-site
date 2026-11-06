@@ -1,6 +1,6 @@
 # ClickMe — Landing Page
 
-Static marketing site for the ClickMe iOS app. Five self-contained HTML files,
+Static marketing site for the ClickMe iOS app. Six self-contained HTML files,
 no build step, no dependencies, no external requests. Open `index.html` in a
 browser to preview.
 
@@ -14,6 +14,7 @@ the payments API.
 | `index.html` | Landing page — hero and closing waitlist forms, how a session works, features, experts, a header status marker in place of the App Store button |
 | `privacy.html` | Privacy policy (Apple requires a privacy policy URL) |
 | `support.html` | Support page (Apple requires a support URL) |
+| `delete-account.html` | Account-deletion page (Google Play requires a public URL where users can request account deletion without the app) |
 | `waitlist-confirmed.html` | `/api/subscribe`'s `303` destination on a successful signup, and on a duplicate — a repeat address is treated as a silent success, not an error |
 | `waitlist-error.html` | `/api/subscribe`'s `303` destination when the write genuinely fails |
 | `api/subscribe.js` | Zero-dependency Vercel Function that writes a waitlist row via `fetch` to Supabase's REST endpoint |
@@ -65,6 +66,7 @@ Target URLs:
 https://uptrendinvestments.net/clickme/
 https://uptrendinvestments.net/clickme/privacy.html
 https://uptrendinvestments.net/clickme/support.html
+https://uptrendinvestments.net/clickme/delete-account.html
 ```
 
 This folder deploys as its **own Vercel project**, and the parent site proxies to it.
@@ -172,7 +174,7 @@ project would be reconstructed from it (see "Doc-with-code convention" below).
   search value, and an error page surfacing in results for the brand name is
   actively bad. Duplicate-content defence for the bare `*.vercel.app` twin is no
   longer carried by a header at all — it's carried by the `rel="canonical"` tag
-  already present on all five pages, each pointing at its own
+  already present on all six pages, each pointing at its own
   `uptrendinvestments.net/clickme/*` URL.
 
 ## Universal Links (if you ever want them from this domain)
@@ -272,7 +274,7 @@ together, not alongside a second CTA.
   `og:image` artwork exists — do not restore it against an empty image well.
 - **`sitemap.xml`** — drop the `waitlist-confirmed.html` and
   `waitlist-error.html` `<url>` entries when those pages retire, leaving the
-  three remaining page entries untouched.
+  four remaining page entries untouched.
 - **`waitlist-confirmed.html` and `waitlist-error.html`** — delete both files
   outright; nothing links to them once the forms that redirected to them are
   gone.
